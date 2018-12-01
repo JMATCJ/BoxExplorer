@@ -5,10 +5,13 @@ import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.paint.Color;
 
 public class Projectile implements Entity {
-    private double x;
-    private double y;
+    private static double x;
+    private static double y;
     private double dx;
     private double dy;
+    
+    public static double getX() {return x;}
+    public static double getY() {return y;}
 
     public Projectile(double startX, double startY, double mouseX, double mouseY, double velocity) {
         this.x = startX;
