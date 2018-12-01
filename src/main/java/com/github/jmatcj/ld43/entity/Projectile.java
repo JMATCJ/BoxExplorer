@@ -10,7 +10,6 @@ public class Projectile implements Entity {
     private double dx;
     private double dy;
 
-
     public Projectile(double startX, double startY, double mouseX, double mouseY, double velocity) {
         this.x = startX;
         this.y = startY;

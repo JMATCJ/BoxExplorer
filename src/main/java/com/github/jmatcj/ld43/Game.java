@@ -1,5 +1,6 @@
 package com.github.jmatcj.ld43;
 
+import com.github.jmatcj.ld43.entity.Enemy;
 import com.github.jmatcj.ld43.entity.Player;
 import com.github.jmatcj.ld43.event.EventListener;
 import com.github.jmatcj.ld43.gui.Drawable;
@@ -30,6 +31,7 @@ public class Game {
         drawListeners = new CopyOnWriteArraySet<>();
 
         addListener(new Player(600.0, 300.0, 10.0)); // TODO Move this later
+        addListener(new Enemy(800.0, 400.0, 10.0));  // TODO make this its own class like spawn/control enemies
     }
 
     public Random getRNG() {
