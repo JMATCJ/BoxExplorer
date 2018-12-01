@@ -22,8 +22,6 @@ public class LDJam43 extends Application {
 
     @Override
     public void start(Stage primaryStage) throws Exception {
-
-
         Canvas canvas = new Canvas(1280, 720);
         Scene scene = new Scene(new Group(canvas), 1270, 710);
         primaryStage.setScene(scene);

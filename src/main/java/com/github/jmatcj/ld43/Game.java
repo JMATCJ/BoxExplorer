@@ -4,26 +4,36 @@ import com.github.jmatcj.ld43.entity.Player;
 import com.github.jmatcj.ld43.event.EventListener;
 import com.github.jmatcj.ld43.gui.Drawable;
 import com.github.jmatcj.ld43.tick.Updatable;
+import com.github.jmatcj.ld43.world.Map;
 import java.util.HashSet;
 import java.util.LinkedList;
 import java.util.Queue;
+import java.util.Random;
 import java.util.Set;
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.input.InputEvent;
 
 public class Game {
+    private final Random rng;
     private final Queue<InputEvent> queuedEvents;
     private final Set<EventListener> eventListeners;
     private final Set<Updatable> updateListeners;
     private final Set<Drawable> drawListeners;
+    private Map currentMap;
 
     public Game() {
+        rng = new Random();
+        currentMap = new Map(rng);
         queuedEvents = new LinkedList<>();
         eventListeners = new HashSet<>();
         updateListeners = new HashSet<>();
         drawListeners = new HashSet<>();
 
         addListener(new Player(128.0, 128.0)); // TODO Move this later
+    }
+
+    public Random getRNG() {
+        return rng;
     }
 
     public void addListener(Object obj) {
