@@ -15,7 +15,9 @@ public class LDJam43 extends Application {
 
     @Override
     public void init() throws Exception {
-        AssetLoader.initialize(getParameters().getRaw().contains("-nomusic"));
+        // TODO Re-enable this when we have actual assets to load
+        //AssetLoader.initialize(getParameters().getRaw().contains("-nomusic"));
+        game = new Game();
     }
 
     @Override
@@ -27,12 +29,17 @@ public class LDJam43 extends Application {
         primaryStage.setScene(scene);
         GraphicsContext gc = canvas.getGraphicsContext2D();
 
+        scene.setOnMouseMoved(event -> game.queueEvent(event));
+        scene.setOnMouseClicked(event -> game.queueEvent(event));
+        scene.setOnKeyPressed(event -> game.queueEvent(event));
+
         gameLoop = new AnimationTimer() {
             @Override
             public void handle(long now) {
                 game.update(now);
 
-
+                gc.clearRect(0, 0, 1280, 720);
+                game.draw(gc);
             }
         };
 

@@ -1,5 +1,6 @@
 package com.github.jmatcj.ld43.entity;
 
+import com.github.jmatcj.ld43.Game;
 import com.github.jmatcj.ld43.event.EventListener;
 import com.github.jmatcj.ld43.gui.Drawable;
 import com.github.jmatcj.ld43.tick.Updatable;
@@ -18,7 +19,7 @@ public class Player implements EventListener, Updatable, Drawable, Entity {
     }
 
     @Override
-    public void handleEvent(InputEvent event) {
+    public void handleEvent(InputEvent event, Game g) {
         if (event instanceof KeyEvent) {
             KeyEvent evt = (KeyEvent)event;
             switch(evt.getCode()) {
@@ -39,13 +40,13 @@ public class Player implements EventListener, Updatable, Drawable, Entity {
     }
 
     @Override
-    public void draw(GraphicsContext gc) {
+    public void draw(GraphicsContext gc, Game g) {
         gc.setFill(Color.RED);
         gc.fillRect(xPos, yPos, 10, 10);
     }
 
     @Override
-    public void update(long ns) {
+    public void update(long ns, Game g) {
         // TODO
     }
 }
