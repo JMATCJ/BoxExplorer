@@ -29,7 +29,7 @@ public class Game {
         updateListeners = new CopyOnWriteArraySet<>();
         drawListeners = new CopyOnWriteArraySet<>();
 
-        addListener(new Player(128.0, 128.0, 10.0)); // TODO Move this later
+        addListener(new Player(600.0, 300.0, 10.0)); // TODO Move this later
     }
 
     public Random getRNG() {

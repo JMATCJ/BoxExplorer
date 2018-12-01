@@ -4,6 +4,7 @@ import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.paint.Color;
 import javafx.scene.text.Font;
 import javafx.scene.text.TextAlignment;
+import javafx.scene.transform.Rotate;
 
 public class Util {
 
@@ -43,5 +44,10 @@ public class Util {
         //gc.setFont(Font.loadFont(AssetLoader.getFontLoc(), fontSize));
         gc.setTextAlign(alignment);
         gc.fillText(text, x, y);
+    }
+
+    public static void rotate(GraphicsContext gc, double angle, double px, double py) {
+        Rotate r = new Rotate(angle, px, py);
+        gc.setTransform(r.getMxx(), r.getMyx(), r.getMxy(), r.getMyy(), r.getTx(), r.getTy());
     }
 }
