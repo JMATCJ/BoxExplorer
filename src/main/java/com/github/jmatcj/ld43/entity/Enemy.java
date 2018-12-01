@@ -1,6 +1,7 @@
 package com.github.jmatcj.ld43.entity;
 
 import com.github.jmatcj.ld43.Game;
+import com.github.jmatcj.ld43.util.Util;
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.paint.Color;
 
@@ -21,6 +22,7 @@ public class Enemy implements Entity {
     @Override
     public void draw(GraphicsContext gc, Game g) {
         gc.save();
+        Util.rotate(gc, Math.toDegrees(Math.atan2(yPos - g.player.getY(), xPos - g.player.getX())), xPos + 5, yPos + 5);
         gc.setFill(Color.ORANGE);
         gc.fillRect(xPos, yPos, 10, 10);
         gc.setFill(Color.GREEN);
