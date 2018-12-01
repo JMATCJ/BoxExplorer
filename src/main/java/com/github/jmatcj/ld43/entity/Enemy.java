@@ -5,21 +5,17 @@ import com.github.jmatcj.ld43.util.Util;
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.paint.Color;
 
-public class Enemy implements Entity {
+public class Enemy extends Entity {
 
-    private double xPos;
-    private double yPos;
     private double dx;
     private double dy;
     private double velocity;
 
     public Enemy(double xPos, double yPos, double velocity) {
-        this.xPos = xPos;
-        this.yPos = yPos;
+        super(xPos, yPos);
         this.velocity = velocity;
     }
 
-    @Override
     public void draw(GraphicsContext gc, Game g) {
         gc.save();
         Util.rotate(gc, Math.toDegrees(Math.atan2(yPos - g.player.getY(), xPos - g.player.getX())), xPos + 5, yPos + 5);
@@ -30,11 +26,6 @@ public class Enemy implements Entity {
         gc.restore();
     }
 
-    public void killEnemy() {
-        //Game.removeListener(Game.enemy);
-    }
-
-    @Override
     public void update(long ns, Game g) {
         // TODO
         // - Make it so when the enemy is shot it dies

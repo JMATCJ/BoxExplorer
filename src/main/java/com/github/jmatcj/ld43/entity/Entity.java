@@ -4,24 +4,50 @@ import com.github.jmatcj.ld43.Game;
 import com.github.jmatcj.ld43.event.EventListener;
 import com.github.jmatcj.ld43.gui.Drawable;
 import com.github.jmatcj.ld43.tick.Updatable;
+import com.github.jmatcj.ld43.util.Util;
+
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.input.InputEvent;
+import javafx.scene.input.MouseEvent;
+import javafx.scene.paint.Color;
 
-public interface Entity extends Drawable, Updatable, EventListener {
+public class Entity implements Drawable, Updatable, EventListener {
     
-	@Override
-    default void draw(GraphicsContext gc, Game g) {
+    protected double xPos;
+    protected double yPos;
+    protected double mouseX;
+    protected double mouseY;
+    
+    protected Entity(double xPos, double yPos) {
+        this.xPos = xPos;
+        this.yPos = yPos;
+    }
+    
+    public double getX() {return xPos;}
+    public double getY() {return yPos;}
+    
+    public void draw(GraphicsContext gc, Game g) {
+        
+        gc.save();
+        Util.rotate(gc, Math.toDegrees(Math.atan2(yPos - mouseY, xPos - mouseX)), xPos + 5, yPos + 5);
+        gc.setFill(Color.RED);
+        gc.fillRect(xPos, yPos, 10, 10);
+        gc.setFill(Color.GREEN);
+        gc.fillRect(xPos, yPos + 5, 3,1);
+        gc.restore();
 
     }
 
-    @Override
-    default void handleEvent(InputEvent event, Game g) {
-
+    public void handleEvent(InputEvent event, Game g) {
+        if (event instanceof MouseEvent) {
+            MouseEvent evt = (MouseEvent)event;
+            mouseX = evt.getX();
+            mouseY = evt.getY();
+        }
     }
 
 
-    @Override
-    default void update(long ns, Game g) {
+    public void update(long ns, Game g) {
 
     }
 }
