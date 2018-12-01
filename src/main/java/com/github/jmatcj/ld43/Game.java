@@ -22,7 +22,8 @@ public class Game {
     private final Set<Updatable> updateListeners;
     private final Set<Drawable> drawListeners;
     private Map currentMap;
-    public Entity enemy = new Enemy(800.0, 400.0);
+    public Entity enemy = new Enemy(800.0, 400.0, 5.0);
+    public Entity player = new Player(600.0, 300.0, 10.0);
 
     public Game() {
         rng = new Random();
@@ -32,7 +33,7 @@ public class Game {
         updateListeners = new CopyOnWriteArraySet<>();
         drawListeners = new CopyOnWriteArraySet<>();
 
-        addListener(new Player(600.0, 300.0, 10.0)); // TODO Move this later
+        addListener(player); // TODO Move this later
         addListener(enemy);  // TODO make this its own class like spawn/control enemies
     }
 
