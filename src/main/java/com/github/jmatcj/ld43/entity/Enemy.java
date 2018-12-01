@@ -56,11 +56,6 @@ public class Enemy implements Entity {
 		} else {
 			i++;
 		}
-		if (Math.abs(xPos - Projectile.getX()) == 0) {
-			if (Math.abs(yPos - Projectile.getY()) == 0) {
-				killEnemy();
-			}
-		}
 	}
 
 }

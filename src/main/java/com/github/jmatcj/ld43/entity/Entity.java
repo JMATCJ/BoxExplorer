@@ -8,7 +8,8 @@ import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.input.InputEvent;
 
 public interface Entity extends Drawable, Updatable, EventListener {
-    @Override
+    
+	@Override
     default void draw(GraphicsContext gc, Game g) {
 
     }
