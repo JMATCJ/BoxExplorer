@@ -13,10 +13,12 @@ import javafx.scene.paint.Color;
 public class Player implements EventListener, Updatable, Drawable, Entity {
     private double xPos;
     private double yPos;
+    private double velocity;
 
-    public Player(double xPos, double yPos) {
+    public Player(double xPos, double yPos, double velocity) {
         this.xPos = xPos;
         this.yPos = yPos;
+        this.velocity =  velocity;
     }
 
     @Override
@@ -25,16 +27,16 @@ public class Player implements EventListener, Updatable, Drawable, Entity {
             KeyEvent evt = (KeyEvent)event;
             switch(evt.getCode()) {
                 case W:
-                    yPos -= 10.0;
+                    yPos -= velocity;
                     break;
                 case A:
-                    xPos -= 10.0;
+                    xPos -= velocity;
                     break;
                 case S:
-                    yPos += 10.0;
+                    yPos += velocity;
                     break;
                 case D:
-                    xPos += 10.0;
+                    xPos += velocity;
                     break;
             }
         }

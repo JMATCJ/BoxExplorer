@@ -5,13 +5,14 @@ import com.github.jmatcj.ld43.event.EventListener;
 import com.github.jmatcj.ld43.gui.Drawable;
 import com.github.jmatcj.ld43.tick.Updatable;
 import com.github.jmatcj.ld43.world.Map;
+import javafx.scene.canvas.GraphicsContext;
+import javafx.scene.input.InputEvent;
+
 import java.util.HashSet;
 import java.util.LinkedList;
 import java.util.Queue;
 import java.util.Random;
 import java.util.Set;
-import javafx.scene.canvas.GraphicsContext;
-import javafx.scene.input.InputEvent;
 
 public class Game {
     private final Random rng;
@@ -29,7 +30,7 @@ public class Game {
         updateListeners = new HashSet<>();
         drawListeners = new HashSet<>();
 
-        addListener(new Player(128.0, 128.0)); // TODO Move this later
+        addListener(new Player(128.0, 128.0, 10.0)); // TODO Move this later
     }
 
     public Random getRNG() {

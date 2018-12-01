@@ -15,7 +15,6 @@ public class Projectile implements Entity {
         this.x = startX;
         this.y = startY;
 
-        // I made this :)
         dx = (x > mouseX) ? -Math.cos(Math.atan2(Math.abs(y - mouseY), Math.abs(x - mouseX))) * velocity : Math.cos(Math.atan2(Math.abs(y - mouseY), Math.abs(x - mouseX))) * velocity;
         dy = (y > mouseY) ? -Math.sin(Math.atan2(Math.abs(y - mouseY), Math.abs(x - mouseX))) * velocity : Math.sin(Math.atan2(Math.abs(y - mouseY), Math.abs(x - mouseX))) * velocity;
     }
