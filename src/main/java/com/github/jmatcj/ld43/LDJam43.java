@@ -7,7 +7,11 @@ import javafx.scene.Group;
 import javafx.scene.Scene;
 import javafx.scene.canvas.Canvas;
 import javafx.scene.canvas.GraphicsContext;
+import javafx.scene.input.KeyCode;
 import javafx.stage.Stage;
+
+import java.util.HashSet;
+import java.util.Set;
 
 public class LDJam43 extends Application {
     private AnimationTimer gameLoop;
@@ -28,7 +32,8 @@ public class LDJam43 extends Application {
 
         scene.setOnMouseMoved(event -> game.queueEvent(event));
         scene.setOnMouseClicked(event -> game.queueEvent(event));
-        scene.setOnKeyPressed(event -> game.queueEvent(event));
+        scene.setOnKeyPressed(event -> game.addToSet(event));
+        scene.setOnKeyReleased(event -> game.removeFromSet(event));
 
         gameLoop = new AnimationTimer() {
             @Override

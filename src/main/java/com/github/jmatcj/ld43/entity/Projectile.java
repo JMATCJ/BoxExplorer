@@ -10,8 +10,8 @@ public class Projectile implements Entity {
     private double dx;
     private double dy;
     
-    public double getX() {return x;}
-    public double getY() {return y;}
+    public double getX() { return x; }
+    public double getY() { return y; }
 
     public Projectile(double startX, double startY, double mouseX, double mouseY, double velocity) {
         this.x = startX;

@@ -1,9 +1,11 @@
 package com.github.jmatcj.ld43.entity;
 
 import com.github.jmatcj.ld43.Game;
+import com.github.jmatcj.ld43.LDJam43;
 import com.github.jmatcj.ld43.util.Util;
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.input.InputEvent;
+import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.paint.Color;
@@ -11,9 +13,9 @@ import javafx.scene.paint.Color;
 public class Player implements Entity {
     private double xPos;
     private double yPos;
-    private double velocity;
     private double mouseX;
     private double mouseY;
+    private double velocity;
 
     public Player(double xPos, double yPos, double velocity) {
         this.xPos = xPos;
@@ -31,28 +33,6 @@ public class Player implements Entity {
 
     @Override
     public void handleEvent(InputEvent event, Game g) {
-        if (event instanceof KeyEvent) {
-            KeyEvent evt = (KeyEvent)event;
-            switch(evt.getCode()) {
-                case W:
-                    yPos -= velocity;
-                    if (yPos < 0) { yPos = 0; }
-                    break;
-                case A:
-                    xPos -= velocity;
-                    if (xPos < 0) { xPos = 0; }
-                    break;
-                case S:
-                    yPos += velocity;
-                    if (yPos > 700) { yPos = 700; }
-                    break;
-                case D:
-                    xPos += velocity;
-                    if (xPos > 1260) { xPos = 1260; }
-                    break;
-            }
-        }
-
         if (event instanceof MouseEvent) {
             MouseEvent evt = (MouseEvent)event;
             mouseX = evt.getX();
@@ -68,8 +48,8 @@ public class Player implements Entity {
     @Override
     public void draw(GraphicsContext gc, Game g) {
         gc.save();
-        gc.setFill(Color.RED);
         Util.rotate(gc, Math.toDegrees(Math.atan2(yPos - mouseY, xPos - mouseX)), xPos + 5, yPos + 5);
+        gc.setFill(Color.RED);
         gc.fillRect(xPos, yPos, 10, 10);
         gc.setFill(Color.GREEN);
         gc.fillRect(xPos, yPos + 5, 3,1);
@@ -78,6 +58,24 @@ public class Player implements Entity {
 
     @Override
     public void update(long ns, Game g) {
-        // TODO
+        if (g.getKeyDown().contains(KeyCode.W)) {
+            yPos -= velocity;
+            if (yPos < 0) { yPos = 0; }
+        }
+
+        if (g.getKeyDown().contains(KeyCode.A)) {
+            xPos -= velocity;
+            if (xPos < 0) { xPos = 0; }
+        }
+
+        if (g.getKeyDown().contains(KeyCode.S)) {
+            yPos += velocity;
+            if (yPos > 700) { yPos = 700; }
+        }
+
+        if (g.getKeyDown().contains(KeyCode.D)) {
+            xPos += velocity;
+            if (xPos > 1260) { xPos = 1260; }
+        }
     }
 }

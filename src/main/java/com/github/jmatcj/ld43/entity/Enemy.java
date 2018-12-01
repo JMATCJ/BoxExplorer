@@ -11,8 +11,9 @@ public class Enemy implements Entity {
 
     private double xPos;
     private double yPos;
+    private double dx;
+    private double dy;
     private double velocity;
-//    private int i = 0;
 
     public Enemy(double xPos, double yPos, double velocity) {
         this.xPos = xPos;
@@ -41,13 +42,11 @@ public class Enemy implements Entity {
         // - Make it so there are multiple enemies
         // - Make them move in a better manner so its not trash
 
+        dx = (xPos > g.player.getX()) ? -Math.cos(Math.atan2(Math.abs(yPos - g.player.getY()), Math.abs(xPos - g.player.getX()))) * velocity : Math.cos(Math.atan2(Math.abs(yPos - g.player.getY()), Math.abs(xPos - g.player.getX()))) * velocity;
+        dy = (yPos > g.player.getY()) ? -Math.sin(Math.atan2(Math.abs(yPos - g.player.getY()), Math.abs(xPos - g.player.getX()))) * velocity : Math.sin(Math.atan2(Math.abs(yPos - g.player.getY()), Math.abs(xPos - g.player.getX()))) * velocity;
 
-
-        if (Math.abs(xPos - Projectile.getX()) == 0) {
-            if (Math.abs(yPos - Projectile.getY()) == 0) {
-                killEnemy();
-            }
-        }
+        xPos += dx;
+        yPos += dy;
     }
 
 }
