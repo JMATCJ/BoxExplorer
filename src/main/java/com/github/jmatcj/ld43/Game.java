@@ -26,7 +26,7 @@ public class Game {
         addListener(new Player(128.0, 128.0)); // TODO Move this later
     }
 
-    void addListener(Object obj) {
+    public void addListener(Object obj) {
         if (obj instanceof EventListener) {
             eventListeners.add((EventListener)obj);
         }
@@ -38,7 +38,7 @@ public class Game {
         }
     }
 
-    void removeListener(Object obj) {
+    public void removeListener(Object obj) {
         if (obj instanceof EventListener) {
             eventListeners.remove(obj);
         }
@@ -50,13 +50,13 @@ public class Game {
         }
     }
 
-    void queueEvent(InputEvent event) {
+    public void queueEvent(InputEvent event) {
         synchronized (queuedEvents) {
             queuedEvents.offer(event);
         }
     }
 
-    void update(long ns) {
+    public void update(long ns) {
         synchronized (queuedEvents) {
             while(queuedEvents.peek() != null) {
                 InputEvent event = queuedEvents.poll();
@@ -67,7 +67,7 @@ public class Game {
         updateListeners.forEach(u -> u.update(ns, this));
     }
 
-    void draw(GraphicsContext gc) {
+    public void draw(GraphicsContext gc) {
         drawListeners.forEach(d -> d.draw(gc, this));
     }
 }

@@ -7,6 +7,7 @@ import com.github.jmatcj.ld43.tick.Updatable;
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.input.InputEvent;
 import javafx.scene.input.KeyEvent;
+import javafx.scene.input.MouseEvent;
 import javafx.scene.paint.Color;
 
 public class Player implements EventListener, Updatable, Drawable, Entity {
@@ -24,16 +25,25 @@ public class Player implements EventListener, Updatable, Drawable, Entity {
             KeyEvent evt = (KeyEvent)event;
             switch(evt.getCode()) {
                 case W:
-                    yPos -= 1.0;
+                    yPos -= 10.0;
                     break;
                 case A:
-                    xPos -= 1.0;
+                    xPos -= 10.0;
                     break;
                 case S:
-                    yPos += 1.0;
+                    yPos += 10.0;
                     break;
                 case D:
-                    xPos += 1.0;
+                    xPos += 10.0;
+                    break;
+            }
+        }
+
+        if (event instanceof MouseEvent) {
+            MouseEvent evt = (MouseEvent)event;
+            switch(evt.getButton()) {
+                case PRIMARY:
+                    g.addListener(new Projectile(xPos, yPos, evt.getX(), evt.getY(), 20.0));
                     break;
             }
         }

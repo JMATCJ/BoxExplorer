@@ -19,8 +19,8 @@ public class Room {
         }
     }
 
-    Size size;
-    Set<Entity> entities;
+    private Size size;
+    private Set<Entity> entities;
 
     public Room(Size size) {
         this.size = size;
