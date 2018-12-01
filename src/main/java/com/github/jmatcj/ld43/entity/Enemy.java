@@ -1,9 +1,6 @@
 package com.github.jmatcj.ld43.entity;
 
 import com.github.jmatcj.ld43.Game;
-import com.github.jmatcj.ld43.util.Util;
-import com.github.jmatcj.ld43.world.Room;
-
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.paint.Color;
 

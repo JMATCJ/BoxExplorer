@@ -7,11 +7,7 @@ import javafx.scene.Group;
 import javafx.scene.Scene;
 import javafx.scene.canvas.Canvas;
 import javafx.scene.canvas.GraphicsContext;
-import javafx.scene.input.KeyCode;
 import javafx.stage.Stage;
-
-import java.util.HashSet;
-import java.util.Set;
 
 public class LDJam43 extends Application {
     private AnimationTimer gameLoop;
