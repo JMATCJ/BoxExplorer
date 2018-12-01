@@ -8,6 +8,7 @@ import com.github.jmatcj.ld43.event.EventListener;
 import com.github.jmatcj.ld43.gui.Drawable;
 import com.github.jmatcj.ld43.tick.Updatable;
 import com.github.jmatcj.ld43.world.Map;
+import java.util.Collection;
 import java.util.HashSet;
 import java.util.LinkedList;
 import java.util.Queue;
@@ -59,6 +60,15 @@ public class Game {
 
     public Set<KeyCode> getKeyDown () {
         return keyDown;
+    }
+
+    public void spawnEntity(Entity e) {
+        currentMap.getCurrentRoom().addEntity(e);
+        addListener(e);
+    }
+
+    public Collection<Entity> getLoadedEntities() {
+        return currentMap.getCurrentRoom().getEntities();
     }
 
     public void addListener(Object obj) {
