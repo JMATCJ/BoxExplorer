@@ -8,7 +8,7 @@ import javafx.scene.input.InputEvent;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.paint.Color;
 
-public class Player implements EventListener, Updatable, Drawable {
+public class Player implements EventListener, Updatable, Drawable, Entity {
     private double xPos;
     private double yPos;
 
