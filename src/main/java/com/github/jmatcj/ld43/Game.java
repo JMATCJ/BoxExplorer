@@ -5,14 +5,13 @@ import com.github.jmatcj.ld43.event.EventListener;
 import com.github.jmatcj.ld43.gui.Drawable;
 import com.github.jmatcj.ld43.tick.Updatable;
 import com.github.jmatcj.ld43.world.Map;
-import javafx.scene.canvas.GraphicsContext;
-import javafx.scene.input.InputEvent;
-
-import java.util.HashSet;
 import java.util.LinkedList;
 import java.util.Queue;
 import java.util.Random;
 import java.util.Set;
+import java.util.concurrent.CopyOnWriteArraySet;
+import javafx.scene.canvas.GraphicsContext;
+import javafx.scene.input.InputEvent;
 
 public class Game {
     private final Random rng;
@@ -26,9 +25,9 @@ public class Game {
         rng = new Random();
         currentMap = new Map(rng);
         queuedEvents = new LinkedList<>();
-        eventListeners = new HashSet<>();
-        updateListeners = new HashSet<>();
-        drawListeners = new HashSet<>();
+        eventListeners = new CopyOnWriteArraySet<>();
+        updateListeners = new CopyOnWriteArraySet<>();
+        drawListeners = new CopyOnWriteArraySet<>();
 
         addListener(new Player(128.0, 128.0, 10.0)); // TODO Move this later
     }
@@ -62,17 +61,13 @@ public class Game {
     }
 
     public void queueEvent(InputEvent event) {
-        synchronized (queuedEvents) {
-            queuedEvents.offer(event);
-        }
+        queuedEvents.offer(event);
     }
 
     public void update(long ns) {
-        synchronized (queuedEvents) {
-            while(queuedEvents.peek() != null) {
-                InputEvent event = queuedEvents.poll();
-                eventListeners.forEach(e -> e.handleEvent(event, this));
-            }
+        while(queuedEvents.peek() != null) {
+            InputEvent event = queuedEvents.poll();
+            eventListeners.forEach(e -> e.handleEvent(event, this));
         }
 
         updateListeners.forEach(u -> u.update(ns, this));
