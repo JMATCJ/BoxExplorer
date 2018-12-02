@@ -1,5 +1,6 @@
 package com.github.jmatcj.ld43.world;
 
+import com.github.jmatcj.ld43.LDJam43;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
@@ -19,7 +20,34 @@ public class Map {
             rooms.add(new Room(i, Room.Size.values()[rng.nextInt(3)]));
         }
         curRoom = 0;
-        // Create the paths between them
+
+        populateRooms(rng);
+
+        generatePaths(numRooms, rng);
+    }
+
+    public Room getCurrentRoom() {
+        return rooms.get(curRoom);
+    }
+
+    /**
+     * Call this when the player moves to the next room.
+     * This method will handle loading/unloading everything in both of the rooms
+     * @param traveled The direction they went to get to the next room
+     * @return The new room the player moved into
+     */
+    public Room transition(Room.Direction traveled) {
+        rooms.get(curRoom).getEntities().forEach(e -> LDJam43.getGame().removeListener(e));
+        curRoom = rooms.get(curRoom).getAdjacentRoom(traveled).getNum();
+        rooms.get(curRoom).getEntities().forEach(e -> LDJam43.getGame().addListener(e));
+        return getCurrentRoom();
+    }
+
+    private void populateRooms(Random rng) {
+        // TODO Populate the rooms in the map
+    }
+
+    private void generatePaths(int numRooms, Random rng) {
         // Starting room should have adjacent rooms on every side
         for (int i = 1; i <= 4; i++) {
             rooms.get(0).addAdjacentRoom(Room.Direction.VALUES[i - 1], rooms.get(i));
@@ -131,9 +159,5 @@ public class Map {
                 col = rand_col;
             }
         }
-    }
-
-    public Room getCurrentRoom() {
-        return rooms.get(curRoom);
     }
 }

@@ -13,8 +13,16 @@ public class LDJam43 extends Application {
     public static final int SCREEN_WIDTH = 768;
     public static final int SCREEN_HEIGHT = 768;
 
+    private static Game game;
     private AnimationTimer gameLoop;
-    private Game game;
+
+    /*
+     * IF YOU EVER NEED AN INSTANCE OF GAME
+     * AND YOU DON'T HAVE IT, ACQUIRE IT HERE!
+     */
+    public static Game getGame() {
+        return game;
+    }
 
     @Override
     public void init() throws Exception {
