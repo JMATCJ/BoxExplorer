@@ -1,5 +1,6 @@
 package com.github.jmatcj.ld43.world;
 
+import com.github.jmatcj.ld43.Game;
 import com.github.jmatcj.ld43.LDJam43;
 import java.util.ArrayList;
 import java.util.List;
@@ -36,12 +37,15 @@ public class Map {
      * @param traveled The direction they went to get to the next room
      * @return The new room the player moved into
      */
-    public Room transition(Room.Direction traveled) {
+    public Room transition(Room.Direction traveled, Game g, Random rng) {
         rooms.get(curRoom).getEntities().forEach(e -> LDJam43.getGame().removeListener(e));
         LDJam43.getGame().removeListener(rooms.get(curRoom));
         curRoom = rooms.get(curRoom).getAdjacentRoom(traveled).getNum();
         LDJam43.getGame().addListener(rooms.get(curRoom));
         rooms.get(curRoom).getEntities().forEach(e -> LDJam43.getGame().addListener(e));
+        for (int i = 0; i < rng.nextInt((10) + 1); i++) {
+            g.spawnEnemy();
+        }
         return getCurrentRoom();
     }
 

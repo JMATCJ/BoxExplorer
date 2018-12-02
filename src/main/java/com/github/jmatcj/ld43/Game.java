@@ -24,7 +24,7 @@ import java.util.Set;
 import java.util.concurrent.CopyOnWriteArraySet;
 
 public class Game {
-    private final Random rng;
+    private final Random rng = new Random();
     private final Queue<InputEvent> queuedEvents;
     private final Set<EventListener> eventListeners;
     private final Set<Updatable> updateListeners;
@@ -32,13 +32,12 @@ public class Game {
     private Set<KeyCode> keyDown;
     private Map currentMap;
     private Room.Direction nextRoom;
-    public Entity enemy = new Enemy(576.0, 576.0, 50);
+    public Entity enemy = new Enemy(rng.nextInt((LDJam43.SCREEN_WIDTH) + 1), rng.nextInt((LDJam43.SCREEN_HEIGHT) + 1), 50);
     public Player player = new Player(384.0, 384.0, 100);
     public Entity item = new ItemEntity(200.0, 200.0);
     public Entity switchEntity = new Switch(150.0, 600.0);
 
     public Game() {
-        rng = new Random();
         currentMap = new Map(rng);
         nextRoom = null;
         queuedEvents = new LinkedList<>();
@@ -52,6 +51,10 @@ public class Game {
         spawnEntity(enemy);  // TODO make this its own class like spawn/control enemies
         spawnEntity(item);
         spawnEntity(switchEntity);
+    }
+    
+    public void spawnEnemy() {
+        spawnEntity(enemy);
     }
 
     public Random getRNG() {
@@ -115,7 +118,7 @@ public class Game {
     public void handleRoomTransition() {
         if (nextRoom != null) {
             currentMap.getCurrentRoom().removeEntity(player);
-            currentMap.transition(nextRoom);
+            currentMap.transition(nextRoom, this, rng);
             currentMap.getCurrentRoom().addEntity(player);
             player.setNewPos(LDJam43.SCREEN_WIDTH / 2.0, LDJam43.SCREEN_HEIGHT / 2.0); // TODO: Make the player come from the side instead
             nextRoom = null;
