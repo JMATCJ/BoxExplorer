@@ -1,20 +1,39 @@
 package com.github.jmatcj.ld43.entity;
 
 import com.github.jmatcj.ld43.Game;
-import com.github.jmatcj.ld43.LDJam43;
+import com.github.jmatcj.ld43.stat.Stat;
+import com.github.jmatcj.ld43.stat.Statable;
 import com.github.jmatcj.ld43.util.Util;
+import java.util.EnumMap;
+import java.util.Map;
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.input.InputEvent;
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.paint.Color;
 
-public class Player extends Entity {
+public class Player extends Entity implements Statable {
     private double velocity;
+    private Map<Stat, Integer> statMap;
 
     public Player(double xPos, double yPos, double velocity) {
         super(xPos, yPos, 10, 10);
         this.velocity =  velocity;
+        this.statMap = new EnumMap<>(Stat.class);
+        this.statMap.put(Stat.HP, 10);
+        this.statMap.put(Stat.ATTACK, 3);
+        this.statMap.put(Stat.DEFENSE, 2);
+        this.statMap.put(Stat.SPEED, 2);
+    }
+
+    @Override
+    public int getStatValue(Stat type) {
+        return statMap.get(type);
+    }
+
+    @Override
+    public void addToStat(Stat type, int delta) {
+        statMap.put(type, statMap.get(type) + delta);
     }
 
     @Override
@@ -50,7 +69,6 @@ public class Player extends Entity {
             if (collision instanceof Enemy) {
                 yPos += frameVelocity;
             }
-
         }
 
         if (g.getKeyDown().contains(KeyCode.A)) {
