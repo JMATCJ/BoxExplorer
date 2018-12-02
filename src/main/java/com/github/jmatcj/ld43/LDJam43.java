@@ -45,6 +45,7 @@ public class LDJam43 extends Application {
         gameLoop = new AnimationTimer() {
             @Override
             public void handle(long now) {
+                game.handleRoomTransition();
                 game.update(now);
 
                 gc.clearRect(0, 0, SCREEN_WIDTH, SCREEN_HEIGHT);

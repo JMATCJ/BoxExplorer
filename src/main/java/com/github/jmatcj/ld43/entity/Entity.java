@@ -42,6 +42,11 @@ public class Entity implements Drawable, Updatable, EventListener {
         return height;
     }
 
+    public void setNewPos(double newX, double newY) {
+        this.xPos = newX;
+        this.yPos = newY;
+    }
+
     @Override
     public void draw(GraphicsContext gc, Game g) {}
 

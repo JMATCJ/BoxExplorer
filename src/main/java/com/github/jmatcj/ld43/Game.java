@@ -9,6 +9,7 @@ import com.github.jmatcj.ld43.event.EventListener;
 import com.github.jmatcj.ld43.gui.Drawable;
 import com.github.jmatcj.ld43.tick.Updatable;
 import com.github.jmatcj.ld43.world.Map;
+import com.github.jmatcj.ld43.world.Room;
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.input.InputEvent;
 import javafx.scene.input.KeyCode;
@@ -30,6 +31,7 @@ public class Game {
     private final Set<Drawable> drawListeners;
     private Set<KeyCode> keyDown;
     private Map currentMap;
+    private Room.Direction nextRoom;
     public Entity enemy = new Enemy(576.0, 576.0, 50);
     public Player player = new Player(384.0, 384.0, 100);
     public Entity item = new ItemEntity(200.0, 200.0);
@@ -38,6 +40,7 @@ public class Game {
     public Game() {
         rng = new Random();
         currentMap = new Map(rng);
+        nextRoom = null;
         queuedEvents = new LinkedList<>();
         eventListeners = new CopyOnWriteArraySet<>();
         updateListeners = new CopyOnWriteArraySet<>();
@@ -102,6 +105,20 @@ public class Game {
         }
         if (obj instanceof Drawable) {
             drawListeners.remove(obj);
+        }
+    }
+
+    public void queueRoomTransition(Room.Direction dir) {
+        nextRoom = dir;
+    }
+
+    public void handleRoomTransition() {
+        if (nextRoom != null) {
+            currentMap.getCurrentRoom().removeEntity(player);
+            currentMap.transition(nextRoom);
+            currentMap.getCurrentRoom().addEntity(player);
+            player.setNewPos(LDJam43.SCREEN_WIDTH / 2.0, LDJam43.SCREEN_HEIGHT / 2.0); // TODO: Make the player come from the side instead
+            nextRoom = null;
         }
     }
 

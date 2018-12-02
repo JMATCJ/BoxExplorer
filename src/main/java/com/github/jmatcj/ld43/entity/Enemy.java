@@ -16,6 +16,7 @@ public class Enemy extends Entity implements Statable {
     public Enemy(double xPos, double yPos, double velocity) {
         super(xPos, yPos, 10, 10);
         this.velocity = velocity;
+        // TODO: Should enemies within the same level have varying stats?
         this.statMap = new EnumMap<>(Stat.class);
         this.statMap.put(Stat.HP, 5);
         this.statMap.put(Stat.ATTACK, 1);
