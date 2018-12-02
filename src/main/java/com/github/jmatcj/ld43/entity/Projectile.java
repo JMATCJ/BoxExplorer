@@ -28,7 +28,7 @@ public class Projectile extends Entity {
         xPos += dx;
         yPos += dy;
 
-        if (bounceCount == 3) {
+        if (bounceCount >= 3) {
             g.removeEntity(this);
         }
         if (xPos < 0 || xPos > LDJam43.SCREEN_WIDTH - 10) {

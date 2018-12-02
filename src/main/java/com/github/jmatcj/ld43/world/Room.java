@@ -64,7 +64,7 @@ public class Room {
     }
 
     public boolean hasAdjacentRoom(Direction dir) {
-        return adjacentRooms.get(dir) != null;
+        return adjacentRooms.containsKey(dir);
     }
 
     public Room getAdjacentRoom(Direction dir) {
