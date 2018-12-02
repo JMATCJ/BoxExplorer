@@ -5,9 +5,9 @@ import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.input.InputEvent;
 import javafx.scene.paint.Color;
 
-public class Item extends Entity {
+public class ItemEntity extends Entity {
 
-    public Item(double xPos, double yPos) {
+    public ItemEntity(double xPos, double yPos) {
         super(xPos, yPos);
     }
 

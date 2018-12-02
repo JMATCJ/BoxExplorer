@@ -35,7 +35,7 @@ public class Player extends Entity {
             if (collision instanceof Enemy) {
                 yPos += velocity;
             }
-            if (collision instanceof Item) {
+            if (collision instanceof ItemEntity) {
                 g.removeEntity(collision);
                 //Add item power up
             }
@@ -47,7 +47,7 @@ public class Player extends Entity {
             if (collision instanceof Enemy) {
                 xPos += velocity;
             }
-            if (collision instanceof Item) {
+            if (collision instanceof ItemEntity) {
                 g.removeEntity(collision);
                //Add item power up
             }
@@ -59,7 +59,7 @@ public class Player extends Entity {
             if (collision instanceof Enemy) {
                 yPos -= velocity;
             }
-            if (collision instanceof Item) {
+            if (collision instanceof ItemEntity) {
                 g.removeEntity(collision);
                 //Add item power up
             }
@@ -71,7 +71,7 @@ public class Player extends Entity {
             if (collision instanceof Enemy) {
                 xPos -= velocity;
             }
-            if (collision instanceof Item) {
+            if (collision instanceof ItemEntity) {
                 g.removeEntity(collision);
                 //Add item power up
             }
