@@ -15,6 +15,7 @@ public class Projectile extends Entity {
         dy = (yPos > mouseY) ? -Math.sin(Math.atan2(Math.abs(yPos - mouseY), Math.abs(xPos - mouseX))) * velocity : Math.sin(Math.atan2(Math.abs(yPos - mouseY), Math.abs(xPos - mouseX))) * velocity;
     }
 
+    @Override
     public void draw(GraphicsContext gc, Game g) {
         gc.setFill(Color.BLUE);
         gc.fillRect(xPos, yPos, 10, 10);
@@ -27,6 +28,7 @@ public class Projectile extends Entity {
         return false;
     }
 
+    @Override
     public void update(long ns, Game g) {
         xPos += dx;
         yPos += dy;
@@ -39,7 +41,5 @@ public class Projectile extends Entity {
                 dy *= -1;
             }
         }
-        
-        
     }
 }

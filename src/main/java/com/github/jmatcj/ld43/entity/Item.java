@@ -11,6 +11,7 @@ public class Item extends Entity {
         super(xPos, yPos);
     }
 
+    @Override
     public void draw(GraphicsContext gc, Game g) {
         gc.save();
         gc.setFill(Color.ORANGE);
@@ -18,10 +19,12 @@ public class Item extends Entity {
         gc.restore();
     }
 
+    @Override
     public void handleEvent(InputEvent event, Game g) {
 
     }
 
+    @Override
     public void update(long ns, Game g) {
 
     }
