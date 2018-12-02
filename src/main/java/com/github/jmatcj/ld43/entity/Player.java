@@ -33,6 +33,10 @@ public class Player extends Entity {
             if (collision instanceof Enemy) {
                 yPos += velocity;
             }
+            if (collision instanceof Item) {
+                g.removeEntity(collision);
+                //Add item power up
+            }
         }
 
         if (g.getKeyDown().contains(KeyCode.A)) {
@@ -40,6 +44,10 @@ public class Player extends Entity {
             if (xPos < 0) { xPos = 0; }
             if (collision instanceof Enemy) {
                 xPos += velocity;
+            }
+            if (collision instanceof Item) {
+                g.removeEntity(collision);
+               //Add item power up
             }
         }
 
@@ -49,6 +57,10 @@ public class Player extends Entity {
             if (collision instanceof Enemy) {
                 yPos -= velocity;
             }
+            if (collision instanceof Item) {
+                g.removeEntity(collision);
+                //Add item power up
+            }
         }
 
         if (g.getKeyDown().contains(KeyCode.D)) {
@@ -56,6 +68,10 @@ public class Player extends Entity {
             if (xPos > 1270) { xPos = 1270; }
             if (collision instanceof Enemy) {
                 xPos -= velocity;
+            }
+            if (collision instanceof Item) {
+                g.removeEntity(collision);
+                //Add item power up
             }
         }
     }
