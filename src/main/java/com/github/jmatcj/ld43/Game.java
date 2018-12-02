@@ -1,10 +1,15 @@
 package com.github.jmatcj.ld43;
 
+import com.github.jmatcj.ld43.entity.Enemy;
+import com.github.jmatcj.ld43.entity.Entity;
+import com.github.jmatcj.ld43.entity.Item;
 import com.github.jmatcj.ld43.entity.Player;
 import com.github.jmatcj.ld43.event.EventListener;
 import com.github.jmatcj.ld43.gui.Drawable;
 import com.github.jmatcj.ld43.tick.Updatable;
 import com.github.jmatcj.ld43.world.Map;
+import java.util.Collection;
+import java.util.HashSet;
 import java.util.LinkedList;
 import java.util.Queue;
 import java.util.Random;
@@ -12,6 +17,8 @@ import java.util.Set;
 import java.util.concurrent.CopyOnWriteArraySet;
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.input.InputEvent;
+import javafx.scene.input.KeyCode;
+import javafx.scene.input.KeyEvent;
 
 public class Game {
     private final Random rng;
@@ -19,7 +26,11 @@ public class Game {
     private final Set<EventListener> eventListeners;
     private final Set<Updatable> updateListeners;
     private final Set<Drawable> drawListeners;
+    private Set<KeyCode> keyDown;
     private Map currentMap;
+    public Entity enemy = new Enemy(800.0, 400.0, 1);
+    public Player player = new Player(600.0, 300.0, 5);
+    public Entity item = new Item(300.0, 300.0);
 
     public Game() {
         rng = new Random();
@@ -28,12 +39,41 @@ public class Game {
         eventListeners = new CopyOnWriteArraySet<>();
         updateListeners = new CopyOnWriteArraySet<>();
         drawListeners = new CopyOnWriteArraySet<>();
+        keyDown = new HashSet<>();
 
-        addListener(new Player(600.0, 300.0, 10.0)); // TODO Move this later
+        spawnEntity(player); // TODO Move this later
+        spawnEntity(enemy);  // TODO make this its own class like spawn/control enemies
+        spawnEntity(item);
     }
 
     public Random getRNG() {
         return rng;
+    }
+
+    public void addToSet(KeyEvent evt) {
+        keyDown.add(evt.getCode());
+    }
+
+    public void removeFromSet(KeyEvent evt) {
+        keyDown.remove(evt.getCode());
+    }
+
+    public Set<KeyCode> getKeyDown () {
+        return keyDown;
+    }
+
+    public void spawnEntity(Entity e) {
+        currentMap.getCurrentRoom().addEntity(e);
+        addListener(e);
+    }
+    
+    public void removeEntity(Entity e) {
+        currentMap.getCurrentRoom().removeEntity(e);
+        removeListener(e);
+    }
+
+    public Collection<Entity> getLoadedEntities() {
+        return currentMap.getCurrentRoom().getEntities();
     }
 
     public void addListener(Object obj) {

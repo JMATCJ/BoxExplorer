@@ -1,4 +1,28 @@
 package com.github.jmatcj.ld43.entity;
 
-public class Item implements Entity {
+import com.github.jmatcj.ld43.Game;
+import javafx.scene.canvas.GraphicsContext;
+import javafx.scene.input.InputEvent;
+import javafx.scene.paint.Color;
+
+public class Item extends Entity {
+
+    public Item(double xPos, double yPos) {
+        super(xPos, yPos);
+    }
+
+    public void draw(GraphicsContext gc, Game g) {
+        gc.save();
+        gc.setFill(Color.ORANGE);
+        gc.fillRect(xPos, yPos, 15, 15);
+        gc.restore();
+    }
+
+    public void handleEvent(InputEvent event, Game g) {
+
+    }
+
+    public void update(long ns, Game g) {
+
+    }
 }

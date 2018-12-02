@@ -1,5 +1,6 @@
 package com.github.jmatcj.ld43;
 
+import com.github.jmatcj.ld43.util.AssetLoader;
 import javafx.animation.AnimationTimer;
 import javafx.application.Application;
 import javafx.scene.Group;
@@ -14,8 +15,7 @@ public class LDJam43 extends Application {
 
     @Override
     public void init() throws Exception {
-        // TODO Re-enable this when we have actual assets to load
-        //AssetLoader.initialize(getParameters().getRaw().contains("-nomusic"));
+        AssetLoader.initialize(getParameters().getRaw().contains("-nomusic"));
         game = new Game();
     }
 
@@ -28,7 +28,8 @@ public class LDJam43 extends Application {
 
         scene.setOnMouseMoved(event -> game.queueEvent(event));
         scene.setOnMouseClicked(event -> game.queueEvent(event));
-        scene.setOnKeyPressed(event -> game.queueEvent(event));
+        scene.setOnKeyPressed(event -> game.addToSet(event));
+        scene.setOnKeyReleased(event -> game.removeFromSet(event));
 
         gameLoop = new AnimationTimer() {
             @Override
