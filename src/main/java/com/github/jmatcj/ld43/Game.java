@@ -120,7 +120,20 @@ public class Game {
             currentMap.getCurrentRoom().removeEntity(player);
             currentMap.transition(nextRoom, this, rng);
             currentMap.getCurrentRoom().addEntity(player);
-            player.setNewPos(LDJam43.SCREEN_WIDTH / 2.0, LDJam43.SCREEN_HEIGHT / 2.0); // TODO: Make the player come from the side instead
+            switch(nextRoom) {
+                case UP:
+                    player.setNewPos(LDJam43.SCREEN_WIDTH / 2.0, LDJam43.SCREEN_HEIGHT - 40);
+                    break;
+                case DOWN:
+                    player.setNewPos(LDJam43.SCREEN_WIDTH / 2.0, 40);
+                    break;
+                case LEFT:
+                    player.setNewPos(LDJam43.SCREEN_WIDTH - 40, LDJam43.SCREEN_HEIGHT / 2.0);
+                    break;
+                case RIGHT:
+                    player.setNewPos(40, LDJam43.SCREEN_HEIGHT / 2.0);
+                    break;
+            }
             nextRoom = null;
         }
     }
