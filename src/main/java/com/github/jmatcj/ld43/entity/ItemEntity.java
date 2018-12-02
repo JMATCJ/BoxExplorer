@@ -8,7 +8,7 @@ import javafx.scene.paint.Color;
 public class ItemEntity extends Entity {
 
     public ItemEntity(double xPos, double yPos) {
-        super(xPos, yPos);
+        super(xPos, yPos, 15, 15);
     }
 
     @Override

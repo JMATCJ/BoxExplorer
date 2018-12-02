@@ -1,5 +1,6 @@
 package com.github.jmatcj.ld43.util;
 
+import com.github.jmatcj.ld43.entity.Entity;
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.paint.Color;
 import javafx.scene.text.Font;
@@ -44,6 +45,10 @@ public class Util {
         //gc.setFont(Font.loadFont(AssetLoader.getFontLoc(), fontSize));
         gc.setTextAlign(alignment);
         gc.fillText(text, x, y);
+    }
+
+    public static void rotate(GraphicsContext gc, double angle, Entity e) {
+        rotate(gc, angle, e.getX() + e.getWidth() / 2, e.getY() + e.getHeight() / 2);
     }
 
     public static void rotate(GraphicsContext gc, double angle, double px, double py) {
