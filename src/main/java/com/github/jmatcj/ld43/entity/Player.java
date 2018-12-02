@@ -26,10 +26,11 @@ public class Player extends Entity {
     }
 
     public void update(long ns, Game g) {
+        Entity collision = checkCollision(g);
         if (g.getKeyDown().contains(KeyCode.W)) {
             yPos -= velocity;
             if (yPos < 0) { yPos = 0; }
-            if (checkCollision(g)) {
+            if (collision instanceof Enemy) {
                 yPos += velocity;
             }
         }
@@ -37,7 +38,7 @@ public class Player extends Entity {
         if (g.getKeyDown().contains(KeyCode.A)) {
             xPos -= velocity;
             if (xPos < 0) { xPos = 0; }
-            if (checkCollision(g)) {
+            if (collision instanceof Enemy) {
                 xPos += velocity;
             }
         }
@@ -45,7 +46,7 @@ public class Player extends Entity {
         if (g.getKeyDown().contains(KeyCode.S)) {
             yPos += velocity;
             if (yPos > 710) { yPos = 710; }
-            if (checkCollision(g)) {
+            if (collision instanceof Enemy) {
                 yPos -= velocity;
             }
         }
@@ -53,7 +54,7 @@ public class Player extends Entity {
         if (g.getKeyDown().contains(KeyCode.D)) {
             xPos += velocity;
             if (xPos > 1270) { xPos = 1270; }
-            if (checkCollision(g)) {
+            if (collision instanceof Enemy) {
                 xPos -= velocity;
             }
         }

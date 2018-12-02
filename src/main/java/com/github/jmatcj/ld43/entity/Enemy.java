@@ -38,9 +38,16 @@ public class Enemy extends Entity {
         xPos += dx;
         yPos += dy;
 
-        if (checkCollision(g)) {
-            xPos -= dx;
-            yPos -= dy;
+        Entity collision = checkCollision(g);
+        if (collision != this) {
+            if (collision instanceof Projectile) {
+                g.removeEntity(this);
+                g.removeEntity(collision);
+            }
+            if (collision instanceof Player) {
+                xPos -= dx;
+                yPos -= dy;
+            }
         }
     }
 

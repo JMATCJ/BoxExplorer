@@ -66,6 +66,11 @@ public class Game {
         currentMap.getCurrentRoom().addEntity(e);
         addListener(e);
     }
+    
+    public void removeEntity(Entity e) {
+        currentMap.getCurrentRoom().removeEntity(e);
+        removeListener(e);
+    }
 
     public Collection<Entity> getLoadedEntities() {
         return currentMap.getCurrentRoom().getEntities();

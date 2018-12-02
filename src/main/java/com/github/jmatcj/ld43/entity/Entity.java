@@ -53,14 +53,14 @@ public class Entity implements Drawable, Updatable, EventListener {
 
     }
 
-    protected boolean checkCollision(Game g) {
+    protected Entity checkCollision(Game g) {
         for (Entity e : g.getLoadedEntities()) {
             if (e != this) {
                 if (yPos + 10 >= e.yPos && yPos <= e.yPos + 10 && xPos + 10 >= e.xPos && xPos <= e.xPos + 10) {
-                    return true;
+                    return e;
                 }
             }
         }
-        return false;
+        return null;
     }
 }
