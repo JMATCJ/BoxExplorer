@@ -29,7 +29,7 @@ public class Game {
     private Set<KeyCode> keyDown;
     private Map currentMap;
     public Entity enemy = new Enemy(800.0, 400.0, 1);
-    public Player player = new Player(600.0, 300.0, 10);
+    public Player player = new Player(600.0, 300.0, 5);
     public Entity item = new Item(300.0, 300.0);
 
     public Game() {
@@ -41,9 +41,9 @@ public class Game {
         drawListeners = new CopyOnWriteArraySet<>();
         keyDown = new HashSet<>();
 
-        addListener(player); // TODO Move this later
-        addListener(enemy);  // TODO make this its own class like spawn/control enemies
-        addListener(item);
+        spawnEntity(player); // TODO Move this later
+        spawnEntity(enemy);  // TODO make this its own class like spawn/control enemies
+        spawnEntity(item);
     }
 
     public Random getRNG() {

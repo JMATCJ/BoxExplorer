@@ -5,7 +5,6 @@ import com.github.jmatcj.ld43.event.EventListener;
 import com.github.jmatcj.ld43.gui.Drawable;
 import com.github.jmatcj.ld43.tick.Updatable;
 import com.github.jmatcj.ld43.util.Util;
-
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.input.InputEvent;
 import javafx.scene.input.MouseEvent;
@@ -25,7 +24,8 @@ public class Entity implements Drawable, Updatable, EventListener {
     
     public double getX() {return xPos;}
     public double getY() {return yPos;}
-    
+
+    @Override
     public void draw(GraphicsContext gc, Game g) {
         
         gc.save();
@@ -38,6 +38,7 @@ public class Entity implements Drawable, Updatable, EventListener {
 
     }
 
+    @Override
     public void handleEvent(InputEvent event, Game g) {
         if (event instanceof MouseEvent) {
             MouseEvent evt = (MouseEvent)event;
@@ -47,7 +48,19 @@ public class Entity implements Drawable, Updatable, EventListener {
     }
 
 
+    @Override
     public void update(long ns, Game g) {
 
+    }
+
+    protected boolean checkCollision(Game g) {
+        for (Entity e : g.getLoadedEntities()) {
+            if (e != this) {
+                if (yPos + 10 >= e.yPos && yPos <= e.yPos + 10 && xPos + 10 >= e.xPos && xPos <= e.xPos + 10) {
+                    return true;
+                }
+            }
+        }
+        return false;
     }
 }

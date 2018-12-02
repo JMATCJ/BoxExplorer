@@ -37,6 +37,11 @@ public class Enemy extends Entity {
 
         xPos += dx;
         yPos += dy;
+
+        if (checkCollision(g)) {
+            xPos -= dx;
+            yPos -= dy;
+        }
     }
 
 }
