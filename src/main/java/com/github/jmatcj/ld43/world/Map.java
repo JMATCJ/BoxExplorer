@@ -16,7 +16,7 @@ public class Map {
         // Create the rooms
         rooms = new ArrayList<>(numRooms);
         for (int i = 0; i < numRooms; i++) {
-            rooms.add(new Room(i + 1, Room.Size.values()[rng.nextInt(3)]));
+            rooms.add(new Room(i, Room.Size.values()[rng.nextInt(3)]));
         }
         curRoom = 0;
         // Create the paths between them
@@ -26,23 +26,24 @@ public class Map {
             rooms.get(i).addAdjacentRoom(Room.Direction.OPPOSITES[Room.Direction.VALUES[i - 1].ordinal()], rooms.get(0));
         }
         int roomsSet = 5; // Number of rooms we have currently setup
-        Room r1 = rooms.get(1); // Room we are currently operating on
-        Room.Direction lastDir = Room.Direction.UP; // The last direction we took
+        int curBase = 1;
+        Room r1 = rooms.get(curBase); // Room we are currently operating on
         while (roomsSet < numRooms) {
             if (rng.nextBoolean()) { // Should we branch from this room
                 Room.Direction dir = Room.Direction.VALUES[rng.nextInt(4)];
-                if (r1.hasAdjacentRoom(dir)) {
-                    lastDir = dir;
-                    r1 = r1.getAdjacentRoom(dir);
+                if (r1.hasAdjacentRoom(dir)) { // Does this room already have a room adjacent in this direction
+                    r1 = r1.getAdjacentRoom(dir); // Start operating on that room
                 } else {
-                    r1.addAdjacentRoom(dir, rooms.get(roomsSet));
+                    r1.addAdjacentRoom(dir, rooms.get(roomsSet)); // Make it adjacent with the next room in the list
                     rooms.get(roomsSet).addAdjacentRoom(Room.Direction.getOpposite(dir), r1);
-                    r1 = rooms.get(roomsSet++); // Set the current room to the one we just linked to, and increment the roomsSet count
-                    lastDir = dir;
+                    roomsSet++;
+                    curBase = (curBase % 4) + 1;
+                    r1 = rooms.get(curBase); // Set the current room to the one we just linked to, and increment the roomsSet count
                 }
-            } else {
-                lastDir = Room.Direction.getOpposite(lastDir);
-                r1 = r1.getAdjacentRoom(lastDir);
+            } else { // Recurse back to the previous room we were in and try again
+                r1 = rooms.get(rng.nextInt(roomsSet));
+                //curBase = (curBase % 4) + 1;
+                //r1 = rooms.get(curBase); // Set the current room to the one we just linked to, and increment the roomsSet count
             }
         }
     }
