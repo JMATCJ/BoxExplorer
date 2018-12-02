@@ -19,9 +19,27 @@ public class Projectile extends Entity {
         gc.setFill(Color.BLUE);
         gc.fillRect(xPos, yPos, 10, 10);
     }
+    
+    protected boolean checkWall(Game g, double xPos, double yPos) {
+        if (xPos < 0 || xPos > 1270 || yPos < 0 || yPos > 710) {
+            return true;
+        }
+        return false;
+    }
 
     public void update(long ns, Game g) {
         xPos += dx;
         yPos += dy;
+        
+        if(checkWall(g, xPos, yPos)) {
+            if (xPos < 0 || xPos > 1270) {
+                dx *= -1;
+            }
+            if (yPos < 0 || yPos > 710) {
+                dy *= -1;
+            }
+        }
+        
+        
     }
 }
