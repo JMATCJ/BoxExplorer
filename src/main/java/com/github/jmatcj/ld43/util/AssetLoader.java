@@ -44,7 +44,7 @@ public class AssetLoader {
             separator = File.separatorChar;
         }
         Files.walk(path, 1).forEach(p -> {
-            if (p.toString().endsWith(".png")) {
+            if (p.toString().endsWith(".png") || p.toString().endsWith(".jpg")) {
                 String key = p.toString().substring(p.toString().lastIndexOf(separator) + 1);
                 System.out.println(key + " being loaded...");
                 images.put(key, new Image(p.toUri().toString().replace("%2520", "%20"))); // Cleanup bad spaces in path
