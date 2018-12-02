@@ -1,15 +1,19 @@
 package com.github.jmatcj.ld43.entity;
 
 import com.github.jmatcj.ld43.Game;
+import com.github.jmatcj.ld43.LDJam43;
+import com.github.jmatcj.ld43.util.Util;
+import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.input.InputEvent;
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.MouseEvent;
+import javafx.scene.paint.Color;
 
 public class Player extends Entity {
     private double velocity;
 
     public Player(double xPos, double yPos, double velocity) {
-        super(xPos, yPos);
+        super(xPos, yPos, 10, 10);
         this.velocity =  velocity;
     }
 
@@ -24,6 +28,17 @@ public class Player extends Entity {
                     break;
             }
         }
+    }
+
+    @Override
+    public void draw(GraphicsContext gc, Game g) {
+        gc.save();
+        Util.rotate(gc, Math.toDegrees(Math.atan2(yPos - mouseY, xPos - mouseX)), this);
+        gc.setFill(Color.RED);
+        gc.fillRect(xPos, yPos, width, height);
+        gc.setFill(Color.GREEN);
+        gc.fillRect(xPos, yPos + width / 2, 3,1);
+        gc.restore();
     }
 
     @Override
@@ -55,7 +70,7 @@ public class Player extends Entity {
 
         if (g.getKeyDown().contains(KeyCode.S)) {
             yPos += velocity;
-            if (yPos > 710) { yPos = 710; }
+            if (yPos > LDJam43.SCREEN_HEIGHT - 10) { yPos = LDJam43.SCREEN_HEIGHT - 10; }
             if (collision instanceof Enemy) {
                 yPos -= velocity;
             }
@@ -67,7 +82,7 @@ public class Player extends Entity {
 
         if (g.getKeyDown().contains(KeyCode.D)) {
             xPos += velocity;
-            if (xPos > 1270) { xPos = 1270; }
+            if (xPos > LDJam43.SCREEN_WIDTH - 10) { xPos = LDJam43.SCREEN_WIDTH - 10; }
             if (collision instanceof Enemy) {
                 xPos -= velocity;
             }

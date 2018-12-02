@@ -9,18 +9,18 @@ public class Enemy extends Entity {
     private double velocity;
 
     public Enemy(double xPos, double yPos, double velocity) {
-        super(xPos, yPos);
+        super(xPos, yPos, 10, 10);
         this.velocity = velocity;
     }
 
     @Override
     public void draw(GraphicsContext gc, Game g) {
         gc.save();
-        Util.rotate(gc, Math.toDegrees(Math.atan2(yPos - g.player.getY(), xPos - g.player.getX())), xPos + 5, yPos + 5);
+        Util.rotate(gc, Math.toDegrees(Math.atan2(yPos - g.player.getY(), xPos - g.player.getX())), this);
         gc.setFill(Color.ORANGE);
-        gc.fillRect(xPos, yPos, 10, 10);
+        gc.fillRect(xPos, yPos, width, height);
         gc.setFill(Color.GREEN);
-        gc.fillRect(xPos, yPos + 5, 3, 1);
+        gc.fillRect(xPos, yPos + height / 2, 3, 1);
         gc.restore();
     }
 

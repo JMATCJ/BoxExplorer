@@ -4,21 +4,23 @@ import com.github.jmatcj.ld43.Game;
 import com.github.jmatcj.ld43.event.EventListener;
 import com.github.jmatcj.ld43.gui.Drawable;
 import com.github.jmatcj.ld43.tick.Updatable;
-import com.github.jmatcj.ld43.util.Util;
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.input.InputEvent;
 import javafx.scene.input.MouseEvent;
-import javafx.scene.paint.Color;
 
 public class Entity implements Drawable, Updatable, EventListener {
     protected double xPos;
     protected double yPos;
+    protected double width;
+    protected double height;
     protected double mouseX;
     protected double mouseY;
     
-    protected Entity(double xPos, double yPos) {
+    protected Entity(double xPos, double yPos, double width, double height) {
         this.xPos = xPos;
         this.yPos = yPos;
+        this.width = width;
+        this.height = height;
     }
     
     public double getX() {
@@ -29,18 +31,16 @@ public class Entity implements Drawable, Updatable, EventListener {
         return yPos;
     }
 
-    @Override
-    public void draw(GraphicsContext gc, Game g) {
-        
-        gc.save();
-        Util.rotate(gc, Math.toDegrees(Math.atan2(yPos - mouseY, xPos - mouseX)), xPos + 5, yPos + 5);
-        gc.setFill(Color.RED);
-        gc.fillRect(xPos, yPos, 10, 10);
-        gc.setFill(Color.GREEN);
-        gc.fillRect(xPos, yPos + 5, 3,1);
-        gc.restore();
-
+    public double getWidth() {
+        return width;
     }
+
+    public double getHeight() {
+        return height;
+    }
+
+    @Override
+    public void draw(GraphicsContext gc, Game g) {}
 
     @Override
     public void handleEvent(InputEvent event, Game g) {
@@ -53,9 +53,7 @@ public class Entity implements Drawable, Updatable, EventListener {
 
 
     @Override
-    public void update(long ns, Game g) {
-
-    }
+    public void update(long ns, Game g) {}
 
     protected Entity checkCollision(Game g) {
         for (Entity e : g.getLoadedEntities()) {

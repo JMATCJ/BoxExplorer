@@ -28,9 +28,9 @@ public class Game {
     private final Set<Drawable> drawListeners;
     private Set<KeyCode> keyDown;
     private Map currentMap;
-    public Entity enemy = new Enemy(800.0, 400.0, 1);
-    public Player player = new Player(600.0, 300.0, 5);
-    public Entity item = new ItemEntity(300.0, 300.0);
+    public Entity enemy = new Enemy(576.0, 576.0, 1);
+    public Player player = new Player(384.0, 384.0, 5);
+    public Entity item = new ItemEntity(200.0, 200.0);
 
     public Game() {
         rng = new Random();

@@ -1,6 +1,7 @@
 package com.github.jmatcj.ld43.entity;
 
 import com.github.jmatcj.ld43.Game;
+import com.github.jmatcj.ld43.LDJam43;
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.paint.Color;
 
@@ -9,7 +10,7 @@ public class Projectile extends Entity {
     private double dy;
 
     public Projectile(double startX, double startY, double mouseX, double mouseY, double velocity) {
-        super(startX, startY);
+        super(startX, startY, 10, 10);
 
         dx = (xPos > mouseX) ? -Math.cos(Math.atan2(Math.abs(yPos - mouseY), Math.abs(xPos - mouseX))) * velocity : Math.cos(Math.atan2(Math.abs(yPos - mouseY), Math.abs(xPos - mouseX))) * velocity;
         dy = (yPos > mouseY) ? -Math.sin(Math.atan2(Math.abs(yPos - mouseY), Math.abs(xPos - mouseX))) * velocity : Math.sin(Math.atan2(Math.abs(yPos - mouseY), Math.abs(xPos - mouseX))) * velocity;
@@ -20,26 +21,17 @@ public class Projectile extends Entity {
         gc.setFill(Color.BLUE);
         gc.fillRect(xPos, yPos, 10, 10);
     }
-    
-    protected boolean checkWall(Game g, double xPos, double yPos) {
-        if (xPos < 0 || xPos > 1270 || yPos < 0 || yPos > 710) {
-            return true;
-        }
-        return false;
-    }
 
     @Override
     public void update(long ns, Game g) {
         xPos += dx;
         yPos += dy;
-        
-        if(checkWall(g, xPos, yPos)) {
-            if (xPos < 0 || xPos > 1270) {
-                dx *= -1;
-            }
-            if (yPos < 0 || yPos > 710) {
-                dy *= -1;
-            }
+
+        if (xPos < 0 || xPos > LDJam43.SCREEN_WIDTH - 10) {
+            dx *= -1;
+        }
+        if (yPos < 0 || yPos > LDJam43.SCREEN_HEIGHT - 10) {
+            dy *= -1;
         }
     }
 }

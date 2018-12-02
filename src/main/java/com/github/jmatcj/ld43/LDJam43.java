@@ -10,6 +10,9 @@ import javafx.scene.canvas.GraphicsContext;
 import javafx.stage.Stage;
 
 public class LDJam43 extends Application {
+    public static final int SCREEN_WIDTH = 768;
+    public static final int SCREEN_HEIGHT = 768;
+
     private AnimationTimer gameLoop;
     private Game game;
 
@@ -21,8 +24,8 @@ public class LDJam43 extends Application {
 
     @Override
     public void start(Stage primaryStage) throws Exception {
-        Canvas canvas = new Canvas(1280, 720);
-        Scene scene = new Scene(new Group(canvas), 1270, 710);
+        Canvas canvas = new Canvas(SCREEN_WIDTH, SCREEN_HEIGHT);
+        Scene scene = new Scene(new Group(canvas), SCREEN_WIDTH - 10, SCREEN_HEIGHT - 10);
         primaryStage.setScene(scene);
         GraphicsContext gc = canvas.getGraphicsContext2D();
 
@@ -36,7 +39,7 @@ public class LDJam43 extends Application {
             public void handle(long now) {
                 game.update(now);
 
-                gc.clearRect(0, 0, 1280, 720);
+                gc.clearRect(0, 0, SCREEN_WIDTH, SCREEN_HEIGHT);
                 game.draw(gc);
             }
         };
