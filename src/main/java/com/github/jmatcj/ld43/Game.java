@@ -44,6 +44,7 @@ public class Game {
         drawListeners = new CopyOnWriteArraySet<>();
         keyDown = new HashSet<>();
 
+        addListener(currentMap.getCurrentRoom());
         spawnEntity(player); // TODO Move this later
         spawnEntity(enemy);  // TODO make this its own class like spawn/control enemies
         spawnEntity(item);

@@ -38,7 +38,9 @@ public class Map {
      */
     public Room transition(Room.Direction traveled) {
         rooms.get(curRoom).getEntities().forEach(e -> LDJam43.getGame().removeListener(e));
+        LDJam43.getGame().removeListener(rooms.get(curRoom));
         curRoom = rooms.get(curRoom).getAdjacentRoom(traveled).getNum();
+        LDJam43.getGame().addListener(rooms.get(curRoom));
         rooms.get(curRoom).getEntities().forEach(e -> LDJam43.getGame().addListener(e));
         return getCurrentRoom();
     }
@@ -51,7 +53,7 @@ public class Map {
         // Starting room should have adjacent rooms on every side
         for (int i = 1; i <= 4; i++) {
             rooms.get(0).addAdjacentRoom(Room.Direction.VALUES[i - 1], rooms.get(i));
-            rooms.get(i).addAdjacentRoom(Room.Direction.OPPOSITES[Room.Direction.VALUES[i - 1].ordinal()], rooms.get(0));
+            rooms.get(i).addAdjacentRoom(Room.Direction.getOpposite(Room.Direction.VALUES[i - 1]), rooms.get(0));
         }
         // A matrix to keep track of where rooms are in our grid
         int[][] roomMatrix = new int[numRooms * 2 - 7][numRooms * 2 - 7];
