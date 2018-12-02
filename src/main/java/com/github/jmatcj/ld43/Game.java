@@ -2,7 +2,7 @@ package com.github.jmatcj.ld43;
 
 import com.github.jmatcj.ld43.entity.Enemy;
 import com.github.jmatcj.ld43.entity.Entity;
-import com.github.jmatcj.ld43.entity.Item;
+import com.github.jmatcj.ld43.entity.ItemEntity;
 import com.github.jmatcj.ld43.entity.Player;
 import com.github.jmatcj.ld43.event.EventListener;
 import com.github.jmatcj.ld43.gui.Drawable;
@@ -30,7 +30,7 @@ public class Game {
     private Map currentMap;
     public Entity enemy = new Enemy(800.0, 400.0, 1);
     public Player player = new Player(600.0, 300.0, 5);
-    public Entity item = new Item(300.0, 300.0);
+    public Entity item = new ItemEntity(300.0, 300.0);
 
     public Game() {
         rng = new Random();
