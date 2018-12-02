@@ -14,8 +14,7 @@ public class ItemEntity extends Entity {
     @Override
     public void draw(GraphicsContext gc, Game g) {
         gc.save();
-        gc.setFill(Color.ORANGE);
-        gc.fillRect(xPos, yPos, 15, 15);
+        drawSquare(gc, Color.ORANGE, false);
         gc.restore();
     }
 

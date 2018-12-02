@@ -17,10 +17,7 @@ public class Enemy extends Entity {
     public void draw(GraphicsContext gc, Game g) {
         gc.save();
         Util.rotate(gc, Math.toDegrees(Math.atan2(yPos - g.player.getY(), xPos - g.player.getX())), this);
-        gc.setFill(Color.ORANGE);
-        gc.fillRect(xPos, yPos, width, height);
-        gc.setFill(Color.GREEN);
-        gc.fillRect(xPos, yPos + height / 2, 3, 1);
+        drawSquare(gc, Color.ORANGE, true);
         gc.restore();
     }
 
@@ -28,14 +25,18 @@ public class Enemy extends Entity {
     public void update(long ns, Game g) {
         // TODO
         // - Make it so there are multiple enemies
-        // - Make them move in a better manner so its not trash\
-        //  - I think we did this?
+        if (prevNS == 0) {
+            updateNS(ns);
+        }
 
         double dx = (xPos > g.player.getX()) ? -Math.cos(Math.atan2(Math.abs(yPos - g.player.getY()), Math.abs(xPos - g.player.getX()))) * velocity : Math.cos(Math.atan2(Math.abs(yPos - g.player.getY()), Math.abs(xPos - g.player.getX()))) * velocity;
         double dy = (yPos > g.player.getY()) ? -Math.sin(Math.atan2(Math.abs(yPos - g.player.getY()), Math.abs(xPos - g.player.getX()))) * velocity : Math.sin(Math.atan2(Math.abs(yPos - g.player.getY()), Math.abs(xPos - g.player.getX()))) * velocity;
 
-        xPos += dx;
-        yPos += dy;
+        double fracTime = Util.getFracOfTimeElapsed(prevNS, ns);
+        xPos += dx * fracTime;
+        yPos += dy * fracTime;
+
+        keepInBounds(); // If the enemy has moved out-of-bounds, move them back in
 
         Entity collision = checkCollision(g);
         if (collision != null) {
@@ -44,10 +45,12 @@ public class Enemy extends Entity {
                 g.removeEntity(collision);
             }
             if (collision instanceof Player) {
-                xPos -= dx;
-                yPos -= dy;
+                xPos -= dx * fracTime;
+                yPos -= dy * fracTime;
             }
         }
+
+        updateNS(ns);
     }
 
 }

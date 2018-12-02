@@ -1,12 +1,14 @@
 package com.github.jmatcj.ld43.entity;
 
 import com.github.jmatcj.ld43.Game;
+import com.github.jmatcj.ld43.LDJam43;
 import com.github.jmatcj.ld43.event.EventListener;
 import com.github.jmatcj.ld43.gui.Drawable;
 import com.github.jmatcj.ld43.tick.Updatable;
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.input.InputEvent;
 import javafx.scene.input.MouseEvent;
+import javafx.scene.paint.Color;
 
 public class Entity implements Drawable, Updatable, EventListener {
     protected double xPos;
@@ -15,6 +17,7 @@ public class Entity implements Drawable, Updatable, EventListener {
     protected double height;
     protected double mouseX;
     protected double mouseY;
+    protected long prevNS;
     
     protected Entity(double xPos, double yPos, double width, double height) {
         this.xPos = xPos;
@@ -55,10 +58,37 @@ public class Entity implements Drawable, Updatable, EventListener {
     @Override
     public void update(long ns, Game g) {}
 
+    protected void updateNS(long curNS) {
+        prevNS = curNS;
+    }
+
+    protected void drawSquare(GraphicsContext gc, Color c, boolean withFrontIndicator) {
+        gc.setFill(c);
+        gc.fillRect(xPos, yPos, width, height);
+        if (withFrontIndicator) {
+            gc.setFill(Color.GREEN);
+            gc.fillRect(xPos, yPos + height / 2, 3, 1);
+        }
+    }
+
+    protected void keepInBounds() {
+        if (xPos < 0) {
+            xPos = 0;
+        } else if (xPos > LDJam43.SCREEN_WIDTH - width) {
+            xPos = LDJam43.SCREEN_WIDTH - width;
+        }
+
+        if (yPos < 0) {
+            yPos = 0;
+        } else if (yPos > LDJam43.SCREEN_HEIGHT - height) {
+            yPos = LDJam43.SCREEN_HEIGHT - height;
+        }
+    }
+
     protected Entity checkCollision(Game g) {
         for (Entity e : g.getLoadedEntities()) {
             if (e != this) {
-                if (yPos + 10 >= e.yPos && yPos <= e.yPos + 10 && xPos + 10 >= e.xPos && xPos <= e.xPos + 10) {
+                if (yPos + height >= e.yPos && yPos <= e.yPos + e.height && xPos + width >= e.xPos && xPos <= e.xPos + e.width) {
                     return e;
                 }
             }

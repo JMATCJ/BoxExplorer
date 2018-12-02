@@ -8,6 +8,10 @@ import javafx.scene.text.TextAlignment;
 import javafx.scene.transform.Rotate;
 
 public class Util {
+    /**
+     * A single second in nanoseconds
+     */
+    public static final long SECOND_IN_NS = 1000000000L;
 
     /**
      * Returns the number of nanoseconds for a number of seconds.
@@ -15,7 +19,7 @@ public class Util {
      * @return The number of nanoseconds for the specified number of seconds.
      */
     public static long timeInNS(int sec) {
-        return sec * 1000000000L;
+        return sec * SECOND_IN_NS;
     }
 
     /**
@@ -27,6 +31,17 @@ public class Util {
      */
     public static boolean hasTimeElapsed(long startNS, long curNS, int sec) {
         return startNS + Util.timeInNS(sec) <= curNS;
+    }
+
+    /**
+     * Get the fraction of time that has elapsed between two NS time values.
+     * Should be used for all entity velocities.
+     * @param prevNS The previous NS value.
+     * @param curNS The current NS value.
+     * @return The fraction of time that has passed
+     */
+    public static double getFracOfTimeElapsed(long prevNS, long curNS) {
+        return (curNS - prevNS) / (double)SECOND_IN_NS;
     }
 
     /**
@@ -47,10 +62,23 @@ public class Util {
         gc.fillText(text, x, y);
     }
 
+    /**
+     * Rotates an entity around its midpoint
+     * @param gc The GraphicsContext we are drawing to
+     * @param angle The angle the entity should be rotated to
+     * @param e The Entity being rotated
+     */
     public static void rotate(GraphicsContext gc, double angle, Entity e) {
         rotate(gc, angle, e.getX() + e.getWidth() / 2, e.getY() + e.getHeight() / 2);
     }
 
+    /**
+     * Rotates the GraphicsContext around a given point
+     * @param gc The GraphicsContext we are drawing to
+     * @param angle The angle of rotation
+     * @param px The x-position of the rotation point
+     * @param py The y-position of the rotation point
+     */
     public static void rotate(GraphicsContext gc, double angle, double px, double py) {
         Rotate r = new Rotate(angle, px, py);
         gc.setTransform(r.getMxx(), r.getMyx(), r.getMxy(), r.getMyy(), r.getTx(), r.getTy());

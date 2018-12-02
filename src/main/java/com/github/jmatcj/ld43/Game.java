@@ -30,8 +30,8 @@ public class Game {
     private final Set<Drawable> drawListeners;
     private Set<KeyCode> keyDown;
     private Map currentMap;
-    public Entity enemy = new Enemy(576.0, 576.0, 1);
-    public Player player = new Player(384.0, 384.0, 5);
+    public Entity enemy = new Enemy(576.0, 576.0, 50);
+    public Player player = new Player(384.0, 384.0, 100);
     public Entity item = new ItemEntity(200.0, 200.0);
     public Entity switchEntity = new Switch(150.0, 600.0);
 

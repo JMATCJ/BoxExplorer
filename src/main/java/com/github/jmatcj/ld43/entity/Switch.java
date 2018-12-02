@@ -20,8 +20,7 @@ public class Switch extends Entity {
     public void draw(GraphicsContext gc, Game g) {
         super.draw(gc, g);
         gc.save();
-        gc.setFill(color);
-        gc.fillRect(xPos, yPos, width, height);
+        drawSquare(gc, color, false);
         gc.restore();
     }
 

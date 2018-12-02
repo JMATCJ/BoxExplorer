@@ -24,7 +24,7 @@ public class Player extends Entity {
             MouseEvent evt = (MouseEvent)event;
             switch(evt.getButton()) {
                 case PRIMARY:
-                    g.spawnEntity(new Projectile(xPos, yPos, evt.getX(), evt.getY(), 20.0));
+                    g.spawnEntity(new Projectile(xPos, yPos, evt.getX(), evt.getY(), 1250));
                     break;
             }
         }
@@ -34,78 +34,57 @@ public class Player extends Entity {
     public void draw(GraphicsContext gc, Game g) {
         gc.save();
         Util.rotate(gc, Math.toDegrees(Math.atan2(yPos - mouseY, xPos - mouseX)), this);
-        gc.setFill(Color.RED);
-        gc.fillRect(xPos, yPos, width, height);
-        gc.setFill(Color.GREEN);
-        gc.fillRect(xPos, yPos + width / 2, 3,1);
+        drawSquare(gc, Color.RED, true);
         gc.restore();
     }
 
     @Override
     public void update(long ns, Game g) {
+        if (prevNS == 0) {
+            updateNS(ns);
+        }
+        double frameVelocity = velocity * Util.getFracOfTimeElapsed(prevNS, ns);
         Entity collision = checkCollision(g);
         if (g.getKeyDown().contains(KeyCode.W)) {
-            yPos -= velocity;
-            if (yPos < 0) { yPos = 0; }
+            yPos -= frameVelocity;
             if (collision instanceof Enemy) {
-                yPos += velocity;
+                yPos += frameVelocity;
             }
-            if (collision instanceof ItemEntity) {
-                g.removeEntity(collision);
-                //Add item power up
-            }
-            if (collision instanceof Switch) {
-                ((Switch) collision).toggleSwitch();
-                // Toggle switch
-            }
+
         }
 
         if (g.getKeyDown().contains(KeyCode.A)) {
-            xPos -= velocity;
-            if (xPos < 0) { xPos = 0; }
+            xPos -= frameVelocity;
             if (collision instanceof Enemy) {
-                xPos += velocity;
-            }
-            if (collision instanceof ItemEntity) {
-                g.removeEntity(collision);
-               //Add item power up
-            }
-            if (collision instanceof Switch) {
-                ((Switch) collision).toggleSwitch();
-                // Toggle switch
+                xPos += frameVelocity;
             }
         }
 
         if (g.getKeyDown().contains(KeyCode.S)) {
-            yPos += velocity;
-            if (yPos > LDJam43.SCREEN_HEIGHT - 10) { yPos = LDJam43.SCREEN_HEIGHT - 10; }
+            yPos += frameVelocity;
             if (collision instanceof Enemy) {
-                yPos -= velocity;
-            }
-            if (collision instanceof ItemEntity) {
-                g.removeEntity(collision);
-                //Add item power up
-            }
-            if (collision instanceof Switch) {
-                ((Switch) collision).toggleSwitch();
-                // Toggle switch
+                yPos -= frameVelocity;
             }
         }
 
         if (g.getKeyDown().contains(KeyCode.D)) {
-            xPos += velocity;
-            if (xPos > LDJam43.SCREEN_WIDTH - 10) { xPos = LDJam43.SCREEN_WIDTH - 10; }
+            xPos += frameVelocity;
             if (collision instanceof Enemy) {
-                xPos -= velocity;
-            }
-            if (collision instanceof ItemEntity) {
-                g.removeEntity(collision);
-                //Add item power up
-            }
-            if (collision instanceof Switch) {
-                ((Switch) collision).toggleSwitch();
-                // Toggle switch
+                xPos -= frameVelocity;
             }
         }
+
+        keepInBounds(); // If the player moved out-of-bounds, move them back in
+
+        // Since this code should always be the same, no matter which way we're moving, we can keep it once down here
+        if (collision instanceof ItemEntity) {
+            g.removeEntity(collision);
+            //Add item power up
+        }
+        if (collision instanceof Switch) {
+            ((Switch) collision).toggleSwitch();
+        }
+
+        updateNS(ns);
     }
 }

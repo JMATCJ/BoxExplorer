@@ -2,6 +2,7 @@ package com.github.jmatcj.ld43.entity;
 
 import com.github.jmatcj.ld43.Game;
 import com.github.jmatcj.ld43.LDJam43;
+import com.github.jmatcj.ld43.util.Util;
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.paint.Color;
 
@@ -19,25 +20,30 @@ public class Projectile extends Entity {
 
     @Override
     public void draw(GraphicsContext gc, Game g) {
-        gc.setFill(Color.BLUE);
-        gc.fillRect(xPos, yPos, 10, 10);
+        drawSquare(gc, Color.BLUE, false);
     }
 
     @Override
     public void update(long ns, Game g) {
-        xPos += dx;
-        yPos += dy;
+        if (prevNS == 0) {
+            updateNS(ns);
+        }
+
+        xPos += dx * Util.getFracOfTimeElapsed(prevNS, ns);
+        yPos += dy * Util.getFracOfTimeElapsed(prevNS, ns);
 
         if (bounceCount >= 3) {
             g.removeEntity(this);
         }
-        if (xPos < 0 || xPos > LDJam43.SCREEN_WIDTH - 10) {
+        if (xPos < 0 || xPos > LDJam43.SCREEN_WIDTH - width) {
             dx *= -1;
             bounceCount++;
         }
-        if (yPos < 0 || yPos > LDJam43.SCREEN_HEIGHT - 10) {
+        if (yPos < 0 || yPos > LDJam43.SCREEN_HEIGHT - height) {
             dy *= -1;
             bounceCount++;
         }
+
+        updateNS(ns);
     }
 }
