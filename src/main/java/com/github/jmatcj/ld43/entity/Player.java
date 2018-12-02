@@ -54,6 +54,10 @@ public class Player extends Entity {
                 g.removeEntity(collision);
                 //Add item power up
             }
+            if (collision instanceof Switch) {
+                ((Switch) collision).toggleSwitch();
+                // Toggle switch
+            }
         }
 
         if (g.getKeyDown().contains(KeyCode.A)) {
@@ -65,6 +69,10 @@ public class Player extends Entity {
             if (collision instanceof ItemEntity) {
                 g.removeEntity(collision);
                //Add item power up
+            }
+            if (collision instanceof Switch) {
+                ((Switch) collision).toggleSwitch();
+                // Toggle switch
             }
         }
 
@@ -78,6 +86,10 @@ public class Player extends Entity {
                 g.removeEntity(collision);
                 //Add item power up
             }
+            if (collision instanceof Switch) {
+                ((Switch) collision).toggleSwitch();
+                // Toggle switch
+            }
         }
 
         if (g.getKeyDown().contains(KeyCode.D)) {
@@ -89,6 +101,10 @@ public class Player extends Entity {
             if (collision instanceof ItemEntity) {
                 g.removeEntity(collision);
                 //Add item power up
+            }
+            if (collision instanceof Switch) {
+                ((Switch) collision).toggleSwitch();
+                // Toggle switch
             }
         }
     }
