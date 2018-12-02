@@ -13,6 +13,7 @@ public class Player extends Entity {
         this.velocity =  velocity;
     }
 
+    @Override
     public void handleEvent(InputEvent event, Game g) {
         super.handleEvent(event, g);
         if (event instanceof MouseEvent) {
@@ -25,6 +26,7 @@ public class Player extends Entity {
         }
     }
 
+    @Override
     public void update(long ns, Game g) {
         Entity collision = checkCollision(g);
         if (g.getKeyDown().contains(KeyCode.W)) {

@@ -11,7 +11,6 @@ import javafx.scene.input.MouseEvent;
 import javafx.scene.paint.Color;
 
 public class Entity implements Drawable, Updatable, EventListener {
-    
     protected double xPos;
     protected double yPos;
     protected double mouseX;
@@ -22,8 +21,13 @@ public class Entity implements Drawable, Updatable, EventListener {
         this.yPos = yPos;
     }
     
-    public double getX() {return xPos;}
-    public double getY() {return yPos;}
+    public double getX() {
+        return xPos;
+    }
+
+    public double getY() {
+        return yPos;
+    }
 
     @Override
     public void draw(GraphicsContext gc, Game g) {
