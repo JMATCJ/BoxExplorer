@@ -1,11 +1,12 @@
 package com.github.jmatcj.ld43.entity;
 
-import static com.github.jmatcj.ld43.stat.Stat.*;
-
 import com.github.jmatcj.ld43.Game;
 import com.github.jmatcj.ld43.util.Util;
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.paint.Color;
+import javafx.scene.text.TextAlignment;
+
+import static com.github.jmatcj.ld43.stat.Stat.*;
 
 public class Enemy extends StatableEntity {
     private double velocity;
@@ -18,6 +19,7 @@ public class Enemy extends StatableEntity {
     @Override
     public void draw(GraphicsContext gc, Game g) {
         gc.save();
+        Util.drawText(gc, Color.BLACK, 12, TextAlignment.CENTER, getStatValue(HP) + "", (int)xPos + 5, (int)yPos - 5);
         Util.rotate(gc, Math.toDegrees(Math.atan2(yPos - g.player.getY(), xPos - g.player.getX())), this);
         drawSquare(gc, Color.ORANGE, true);
         gc.restore();
