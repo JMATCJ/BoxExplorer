@@ -19,20 +19,6 @@ public class Room implements Updatable, Drawable {
     private static final int[] HALLWAYS_X = {SCREEN_WIDTH / 2 - HALLWAY_SIZE / 2, SCREEN_WIDTH / 2 - HALLWAY_SIZE / 2, 0, SCREEN_WIDTH - HALLWAY_SIZE};
     private static final int[] HALLWAYS_Y = {0, SCREEN_HEIGHT - HALLWAY_SIZE, SCREEN_HEIGHT / 2 - HALLWAY_SIZE / 2, SCREEN_HEIGHT / 2 - HALLWAY_SIZE / 2};
 
-    public enum Size {
-        SMALL(10, 10),
-        MEDIUM(15, 15),
-        LARGE(20, 20);
-
-        private int width;
-        private int height;
-
-        Size(int width, int height) {
-            this.width = width;
-            this.height = height;
-        }
-    }
-
     public enum Direction {
         UP,
         DOWN,
@@ -48,13 +34,11 @@ public class Room implements Updatable, Drawable {
     }
 
     private int num;
-    private Size size;
     private Set<Entity> entities;
     private java.util.Map<Direction, Room> adjacentRooms;
 
-    public Room(int num, Size size) {
+    public Room(int num) {
         this.num = num;
-        this.size = size;
         this.entities = new HashSet<>();
         this.adjacentRooms = new EnumMap<>(Direction.class);
     }

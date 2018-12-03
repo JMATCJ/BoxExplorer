@@ -18,7 +18,7 @@ public class Map {
         // Create the rooms
         rooms = new ArrayList<>(numRooms);
         for (int i = 0; i < numRooms; i++) {
-            rooms.add(new Room(i, Room.Size.values()[rng.nextInt(3)]));
+            rooms.add(new Room(i));
         }
         curRoom = 0;
 
