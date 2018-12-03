@@ -6,11 +6,11 @@ import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.paint.Color;
 
 public class Switch extends Entity {
-
-    private Color color = Color.BLACK;
+    private Color color;
 
     public Switch(double xPos, double yPos) {
         super(xPos, yPos, 15.0, 15.0);
+        this.color = Color.BLACK;
     }
 
     public void toggleSwitch() {
@@ -22,14 +22,8 @@ public class Switch extends Entity {
 
     @Override
     public void draw(GraphicsContext gc, Game g) {
-        super.draw(gc, g);
         gc.save();
         drawSquare(gc, color, false);
         gc.restore();
-    }
-
-    @Override
-    public void update(long ns, Game g) {
-        super.update(ns, g);
     }
 }

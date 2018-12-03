@@ -11,11 +11,15 @@ import javafx.scene.paint.Color;
 import javafx.scene.text.TextAlignment;
 
 public class Item extends Entity {
-    private Map<Stat, Integer> statChanges;
+    public static final double ITEM_SIZE = 15;
 
-    public Item(double xPos, double yPos) {
-        super(xPos, yPos, 15, 15);
+    private Map<Stat, Integer> statChanges;
+    private Color color;
+
+    public Item(double xPos, double yPos, Color color) {
+        super(xPos, yPos, ITEM_SIZE, ITEM_SIZE);
         this.statChanges = new EnumMap<>(Stat.class);
+        this.color = color;
     }
 
     public void addStatChange(Stat type, int change) {
@@ -41,7 +45,7 @@ public class Item extends Entity {
     @Override
     public void draw(GraphicsContext gc, Game g) {
         gc.save();
-        drawSquare(gc, Color.ORANGE, false);
+        drawSquare(gc, color, false);
         Entity collision = checkCollision(g);
         if (collision instanceof Player) {
             String text = changesToText();

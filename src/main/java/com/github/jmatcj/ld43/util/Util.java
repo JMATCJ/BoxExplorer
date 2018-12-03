@@ -55,11 +55,9 @@ public class Util {
      * @param x The X location to start drawing at.
      * @param y The Y location to start drawing at.
      */
-    // TODO: Fix this with whatever font we're going to use
     public static void drawText(GraphicsContext gc, Color fontColor, int fontSize, TextAlignment alignment, String text, double x, double y) {
         gc.setFill(fontColor);
         gc.setFont(Font.font("Verdana", FontWeight.BOLD, fontSize));
-        //gc.setFont(Font.loadFont(AssetLoader.getFontLoc(), fontSize));
         gc.setTextAlign(alignment);
         gc.fillText(text, x, y);
     }

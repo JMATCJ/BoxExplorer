@@ -2,13 +2,11 @@ package com.github.jmatcj.ld43;
 
 import com.github.jmatcj.ld43.entity.Enemy;
 import com.github.jmatcj.ld43.entity.Entity;
-import com.github.jmatcj.ld43.entity.Item;
 import com.github.jmatcj.ld43.entity.Player;
 import com.github.jmatcj.ld43.entity.StairCase;
 import com.github.jmatcj.ld43.event.EventListener;
 import com.github.jmatcj.ld43.gui.DrawStats;
 import com.github.jmatcj.ld43.gui.Drawable;
-import com.github.jmatcj.ld43.stat.Stat;
 import com.github.jmatcj.ld43.tick.Updatable;
 import com.github.jmatcj.ld43.world.Map;
 import com.github.jmatcj.ld43.world.Room;
@@ -25,7 +23,7 @@ import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
 
 public class Game {
-    private final static Random rng = new Random();
+    private final Random rng;
     private final Queue<InputEvent> queuedEvents;
     private final Set<EventListener> eventListeners;
     private final Set<Updatable> updateListeners;
@@ -35,11 +33,11 @@ public class Game {
     private Room.Direction nextRoom;
     private boolean nextArea = false;
     public Player player = new Player(384.0, 384.0, 100);
-    public Item item = new Item(200.0, 200.0);
     public StairCase stairCase = new StairCase(500.0, 100.0);
 
 
     public Game() {
+        rng = new Random();
         currentMap = new Map(rng, 0);
         nextRoom = null;
         queuedEvents = new LinkedList<>();
@@ -48,18 +46,15 @@ public class Game {
         drawListeners = new CopyOnWriteArraySet<>();
         keyDown = new HashSet<>();
 
-        item.addStatChange(Stat.HP, -5);
-        item.addStatChange(Stat.ATTACK, 5);
-        item.addStatChange(Stat.SPEED, 5);
-
         addListener(new DrawStats());
         addListener(currentMap.getCurrentRoom());
         spawnEntity(player); // TODO Move this later
-        spawnEntity(item);
         spawnEntity(stairCase);
     }
     
-    public static Random getRng() {return rng;}
+    public Random getRNG() {
+        return rng;
+    }
 
     public void updateSwitchCount() {
         currentMap.updateSwitchCount();

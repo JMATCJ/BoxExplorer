@@ -3,10 +3,15 @@ package com.github.jmatcj.ld43.world;
 import com.github.jmatcj.ld43.LDJam43;
 import com.github.jmatcj.ld43.entity.Enemy;
 import com.github.jmatcj.ld43.entity.Entity;
+import com.github.jmatcj.ld43.entity.Item;
 import com.github.jmatcj.ld43.entity.Switch;
+import com.github.jmatcj.ld43.stat.Stat;
 import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Collections;
 import java.util.List;
 import java.util.Random;
+import javafx.scene.paint.Color;
 
 public class Map {
     private List<Room> rooms;
@@ -85,18 +90,53 @@ public class Map {
     }
 
     private void populateRooms(Random rng) {
+        // Spawn Enemies
         int tmp;
         for (int i = 1; i < rooms.size(); i++) {
             tmp = rng.nextInt(10);
             for (int k = 0; k < tmp; k++) {
-                Entity enemy = new Enemy(rng.nextInt((LDJam43.SCREEN_WIDTH) + 1), rng.nextInt((LDJam43.SCREEN_HEIGHT) + 1), 50, 5 + powerMeter, 1 + powerMeter, 1 + powerMeter * 10, 1 + powerMeter);
+                Entity enemy = new Enemy(rng.nextInt((LDJam43.SCREEN_WIDTH) + 1), rng.nextInt((LDJam43.SCREEN_HEIGHT) + 1), 50, 5 + powerMeter, 1 + powerMeter, 1 + powerMeter * 5, 1 + powerMeter);
                 rooms.get(i).addEntity(enemy);
             }
         }
+        // Spawn Switches
         totalSwitches = rng.nextInt(3) + 3;
         for (int i = 0; i < totalSwitches; i++) {
             Entity switchEntity = new Switch(rng.nextInt(((LDJam43.SCREEN_WIDTH - 50) + 50)), rng.nextInt(((LDJam43.SCREEN_HEIGHT - 50) + 50)));
             rooms.get(rng.nextInt(rooms.size() - 1) + 1).addEntity(switchEntity);
+        }
+        // Spawn Items
+        int numItems = (rooms.size() <= 14) ? rng.nextInt(2) + 1 : rng.nextInt(3) + 1;
+        List<Stat> list = Arrays.asList(Stat.values());
+        for (int i = 0; i < numItems; i++) {
+            Collections.shuffle(list);
+            double d = rng.nextDouble();
+            if (d <= 0.5) { // Common
+                Item item = new Item(rng.nextDouble() * (LDJam43.SCREEN_WIDTH - Item.ITEM_SIZE), rng.nextDouble() * (LDJam43.SCREEN_HEIGHT - Item.ITEM_SIZE), Color.GRAY);
+                item.addStatChange(list.get(0), rng.nextInt(2) + 1);
+                item.addStatChange(list.get(1), -(rng.nextInt(2) + 1));
+                rooms.get(rng.nextInt(rooms.size() - 1) + 1).addEntity(item);
+            } else if (d <= 0.8) { // Uncommon
+                Item item = new Item(rng.nextDouble() * (LDJam43.SCREEN_WIDTH - Item.ITEM_SIZE), rng.nextDouble() * (LDJam43.SCREEN_HEIGHT - Item.ITEM_SIZE), Color.GREEN);
+                item.addStatChange(list.get(0), rng.nextInt(3) + 1);
+                item.addStatChange(list.get(1), rng.nextInt(3) + 1);
+                item.addStatChange(list.get(2), -(rng.nextInt(3) + 1));
+                item.addStatChange(list.get(3), -(rng.nextInt(3) + 1));
+                rooms.get(rng.nextInt(rooms.size() - 1) + 1).addEntity(item);
+            } else if (d <= 0.95) { // Rare
+                Item item = new Item(rng.nextDouble() * (LDJam43.SCREEN_WIDTH - Item.ITEM_SIZE), rng.nextDouble() * (LDJam43.SCREEN_HEIGHT - Item.ITEM_SIZE), Color.BLUE);
+                item.addStatChange(list.get(0), rng.nextInt(4) + 1);
+                item.addStatChange(list.get(1), rng.nextInt(4) + 1);
+                item.addStatChange(list.get(2), -(rng.nextInt(4) + 1));
+                rooms.get(rng.nextInt(rooms.size() - 1) + 1).addEntity(item);
+            } else { // Epic
+                Item item = new Item(rng.nextDouble() * (LDJam43.SCREEN_WIDTH - Item.ITEM_SIZE), rng.nextDouble() * (LDJam43.SCREEN_HEIGHT - Item.ITEM_SIZE), Color.PURPLE);
+                item.addStatChange(list.get(0), rng.nextInt(5) + 1);
+                item.addStatChange(list.get(1), rng.nextInt(5) + 1);
+                item.addStatChange(list.get(2), rng.nextInt(5) + 1);
+                item.addStatChange(list.get(3), -(rng.nextInt(5) + 1));
+                rooms.get(rng.nextInt(rooms.size() - 1) + 1).addEntity(item);
+            }
         }
     }
 

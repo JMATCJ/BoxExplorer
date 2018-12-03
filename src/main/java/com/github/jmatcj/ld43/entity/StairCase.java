@@ -1,21 +1,19 @@
 package com.github.jmatcj.ld43.entity;
 
 import com.github.jmatcj.ld43.Game;
-
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.paint.Color;
 
-public class StairCase extends Entity{
-    
-    private Color color = Color.RED;
+public class StairCase extends Entity {
+    private Color color;
 
     public StairCase(double xPos, double yPos) {
         super(xPos, yPos, 25.0, 25.0);
+        this.color = Color.RED;
     }
     
     public void activate() {
         color = Color.GREEN;
-        //Move to next level logic
     }
 
     public boolean isActivated() {

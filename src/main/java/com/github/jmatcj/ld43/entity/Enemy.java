@@ -1,23 +1,17 @@
 package com.github.jmatcj.ld43.entity;
 
-import com.github.jmatcj.ld43.Game;
-import com.github.jmatcj.ld43.LDJam43;
-import com.github.jmatcj.ld43.util.Util;
+import static com.github.jmatcj.ld43.stat.Stat.*;
 
-import javafx.application.Platform;
+import com.github.jmatcj.ld43.Game;
+import com.github.jmatcj.ld43.util.Util;
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.paint.Color;
 import javafx.scene.text.TextAlignment;
 
-import static com.github.jmatcj.ld43.stat.Stat.*;
-
-import java.util.Random;
-
 public class Enemy extends StatableEntity {
     private double velocity;
-    private int i = 0;
-    Random rng = Game.getRng();
-    private int RATE = rng.nextInt(10) + 10;
+    private long lastShotNS;
+    private int numOfSeconds;
 
     public Enemy(double xPos, double yPos, double velocity, int bHealth, int bAttack, int bSpeed, int bBulletSpeed) {
         super(xPos, yPos, 10, 10, bHealth, bAttack, bSpeed, bBulletSpeed);
@@ -36,6 +30,8 @@ public class Enemy extends StatableEntity {
     @Override
     public void update(long ns, Game g) {
         if (prevNS == 0) {
+            lastShotNS = ns;
+            numOfSeconds = g.getRNG().nextInt(2) + 1;
             updateNS(ns);
         }
 
@@ -47,12 +43,13 @@ public class Enemy extends StatableEntity {
         yPos += dy * frameMovement;
 
         keepInBounds(); // If the enemy has moved out-of-bounds, move them back in
-        
-        if (i == RATE) {
-            g.spawnEntity(new Projectile(xPos, yPos, g.player.getX(), g.player.getY(), 500 * ((getStatValue(BULLETSPEED) - 1) / 10.0 + 1), getStatValue(ATTACK), false, true));
-            i = 0;
+
+        // If the cooldown has elapsed and random chance says we can shoot
+        if (Util.hasTimeElapsed(lastShotNS, ns, numOfSeconds) && g.getRNG().nextBoolean()) {
+            g.spawnEntity(new Projectile(xPos, yPos, g.player.getX(), g.player.getY(), 500 * ((getStatValue(BULLETSPEED) - 1) / 10.0 + 1), getStatValue(ATTACK), false));
+            lastShotNS = ns;
+            numOfSeconds = g.getRNG().nextInt(3) + 2;
         }
-        i++;
 
         Entity collision = checkCollision(g);
         if (collision != null) {

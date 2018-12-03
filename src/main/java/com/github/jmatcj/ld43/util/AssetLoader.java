@@ -19,16 +19,11 @@ public class AssetLoader {
     private static final String ASSETS_DIR = "/assets/ld43/";
     private static final String IMAGES_DIR = ASSETS_DIR + "images/";
     private static final String MUSIC_DIR = ASSETS_DIR + "music/";
-    //private static final String FONT_LOC = ASSETS_DIR + "font/code_bold.otf";
     // name:Image pairs
     private static Map<String, Image> images;
     private static Map<String, Media> music;
-    private static String fontLoc;
 
     public static void initialize(boolean noMusic) throws IOException, URISyntaxException {
-        // FONT
-        //System.out.println("Loading Code Bold font...");
-        //fontLoc = AssetLoader.class.getResource(FONT_LOC).toExternalForm();
         // IMAGES
         images = new HashMap<>();
         URI imagesURI = AssetLoader.class.getResource(IMAGES_DIR).toURI();
@@ -79,9 +74,5 @@ public class AssetLoader {
 
     public static Media getMusic(String name) {
         return music.getOrDefault(name, null);
-    }
-
-    public static String getFontLoc() {
-        return fontLoc;
     }
 }

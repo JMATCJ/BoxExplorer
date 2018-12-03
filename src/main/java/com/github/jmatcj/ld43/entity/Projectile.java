@@ -12,15 +12,13 @@ public class Projectile extends Entity {
     private int damage;
     private int bounceCount;
     private boolean playerShot;
-    private boolean enemyShot;
 
-    public Projectile(double startX, double startY, double mouseX, double mouseY, double velocity, int damage, boolean playerShot, boolean enemyShot) {
+    public Projectile(double startX, double startY, double mouseX, double mouseY, double velocity, int damage, boolean playerShot) {
         super(startX, startY, 10, 10);
         dx = (xPos > mouseX) ? -Math.cos(Math.atan2(Math.abs(yPos - mouseY), Math.abs(xPos - mouseX))) * velocity : Math.cos(Math.atan2(Math.abs(yPos - mouseY), Math.abs(xPos - mouseX))) * velocity;
         dy = (yPos > mouseY) ? -Math.sin(Math.atan2(Math.abs(yPos - mouseY), Math.abs(xPos - mouseX))) * velocity : Math.sin(Math.atan2(Math.abs(yPos - mouseY), Math.abs(xPos - mouseX))) * velocity;
         this.damage = damage;
         this.playerShot = playerShot;
-        this.enemyShot = enemyShot;
     }
 
     public int getDamage() {
@@ -32,7 +30,7 @@ public class Projectile extends Entity {
     }
     
     public boolean enemyIgnore() {
-        return enemyShot;
+        return !playerShot;
     }
 
     @Override
