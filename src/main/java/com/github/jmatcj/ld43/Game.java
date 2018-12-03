@@ -61,6 +61,14 @@ public class Game {
         nextArea = !nextArea;
     }
 
+    public int getTotalSwitches() {
+        return currentMap.getTotalSwitches();
+    }
+
+    public int getToggledSwitches() {
+        return currentMap.getToggledSwitches();
+    }
+
     public void remakeEverything() {
         getLoadedEntities().forEach(e -> LDJam43.getGame().removeListener(e));
         removeListener(currentMap.getCurrentRoom());

@@ -39,6 +39,14 @@ public class Map {
         return rooms.get(curRoom);
     }
 
+    public int getTotalSwitches() {
+        return totalSwitches;
+    }
+
+    public int getToggledSwitches() {
+        return toggledSwitches;
+    }
+
     public void updateSwitchCount() {
         toggledSwitches++;
         if (toggledSwitches == totalSwitches) {

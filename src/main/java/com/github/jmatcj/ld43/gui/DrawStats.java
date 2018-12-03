@@ -12,10 +12,11 @@ public class DrawStats implements Drawable {
     @Override
     public void draw(GraphicsContext gc, Game g) {
         gc.save();
-        Util.drawText(gc, Color.BLACK, 24, TextAlignment.LEFT, "Health = " + LDJam43.getGame().player.getStatValue(Stat.HP), 20, 40);
-        Util.drawText(gc, Color.BLACK, 24, TextAlignment.LEFT, "Attack = " + LDJam43.getGame().player.getStatValue(Stat.ATTACK), 20, 80);
-        Util.drawText(gc, Color.BLACK, 24, TextAlignment.LEFT, "Speed  = " + LDJam43.getGame().player.getStatValue(Stat.SPEED), 20, 120);
-        Util.drawText(gc, Color.BLACK, 24, TextAlignment.LEFT, "Proj Speed  = " + LDJam43.getGame().player.getStatValue(Stat.SPEED), 20, 160);
+        Util.drawText(gc, Color.BLACK, 20, TextAlignment.LEFT, "Health = " + LDJam43.getGame().player.getStatValue(Stat.HP), 20, 30);
+        Util.drawText(gc, Color.BLACK, 20, TextAlignment.LEFT, "Attack = " + LDJam43.getGame().player.getStatValue(Stat.ATTACK), 20, 55);
+        Util.drawText(gc, Color.BLACK, 20, TextAlignment.LEFT, "Speed  = " + LDJam43.getGame().player.getStatValue(Stat.SPEED), 20, 80);
+        Util.drawText(gc, Color.BLACK, 20, TextAlignment.LEFT, "Proj Speed  = " + LDJam43.getGame().player.getStatValue(Stat.SPEED), 20, 105);
+        Util.drawText(gc, Color.BLACK, 20, TextAlignment.LEFT, "Remaining switches = " + (LDJam43.getGame().getTotalSwitches() - LDJam43.getGame().getToggledSwitches()), 20, 130);
         gc.restore();
     }
 }
