@@ -1,39 +1,22 @@
 package com.github.jmatcj.ld43.entity;
 
+import static com.github.jmatcj.ld43.stat.Stat.*;
+
 import com.github.jmatcj.ld43.Game;
-import com.github.jmatcj.ld43.stat.Stat;
-import com.github.jmatcj.ld43.stat.Statable;
 import com.github.jmatcj.ld43.util.Util;
-import java.util.EnumMap;
-import java.util.Map;
+import javafx.application.Platform;
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.input.InputEvent;
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.paint.Color;
 
-public class Player extends Entity implements Statable {
+public class Player extends StatableEntity {
     private double velocity;
-    private Map<Stat, Integer> statMap;
 
     public Player(double xPos, double yPos, double velocity) {
-        super(xPos, yPos, 10, 10);
+        super(xPos, yPos, 10, 10, 10, 1, 1);
         this.velocity =  velocity;
-        this.statMap = new EnumMap<>(Stat.class);
-        this.statMap.put(Stat.HP, 10);
-        this.statMap.put(Stat.ATTACK, 3);
-        this.statMap.put(Stat.DEFENSE, 2);
-        this.statMap.put(Stat.SPEED, 2);
-    }
-
-    @Override
-    public int getStatValue(Stat type) {
-        return statMap.get(type);
-    }
-
-    @Override
-    public void addToStat(Stat type, int delta) {
-        statMap.put(type, statMap.get(type) + delta);
     }
 
     @Override
@@ -43,7 +26,7 @@ public class Player extends Entity implements Statable {
             MouseEvent evt = (MouseEvent)event;
             switch(evt.getButton()) {
                 case PRIMARY:
-                    g.spawnEntity(new Projectile(xPos, yPos, evt.getX(), evt.getY(), 1250));
+                    g.spawnEntity(new Projectile(xPos, yPos, evt.getX(), evt.getY(),1250, getStatValue(ATTACK), true));
                     break;
             }
         }
@@ -62,7 +45,8 @@ public class Player extends Entity implements Statable {
         if (prevNS == 0) {
             updateNS(ns);
         }
-        double frameVelocity = velocity * Util.getFracOfTimeElapsed(prevNS, ns);
+        // Speed is calculated so that 1 is base speed, and every point after that adds 0.1 to the multiplier.
+        double frameVelocity = velocity * Util.getFracOfTimeElapsed(prevNS, ns) * ((getStatValue(SPEED) - 1) / 10.0 + 1);
         Entity collision = checkCollision(g);
         if (g.getKeyDown().contains(KeyCode.W)) {
             yPos -= frameVelocity;
@@ -101,6 +85,15 @@ public class Player extends Entity implements Statable {
         }
         if (collision instanceof Switch) {
             ((Switch) collision).toggleSwitch();
+        }
+        if (collision instanceof Projectile) {
+            Projectile p = (Projectile)collision;
+            if (!p.playerIgnore()) {
+                g.removeEntity(p);
+                if (addToStat(HP, -p.getDamage()) == 0) {
+                    Platform.exit(); // END THE GAME
+                }
+            }
         }
 
         updateNS(ns);

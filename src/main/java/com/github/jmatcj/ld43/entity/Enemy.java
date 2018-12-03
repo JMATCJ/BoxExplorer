@@ -1,37 +1,18 @@
 package com.github.jmatcj.ld43.entity;
 
+import static com.github.jmatcj.ld43.stat.Stat.*;
+
 import com.github.jmatcj.ld43.Game;
-import com.github.jmatcj.ld43.stat.Stat;
-import com.github.jmatcj.ld43.stat.Statable;
 import com.github.jmatcj.ld43.util.Util;
-import java.util.EnumMap;
-import java.util.Map;
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.paint.Color;
 
-public class Enemy extends Entity implements Statable {
+public class Enemy extends StatableEntity {
     private double velocity;
-    private Map<Stat, Integer> statMap;
 
     public Enemy(double xPos, double yPos, double velocity) {
-        super(xPos, yPos, 10, 10);
+        super(xPos, yPos, 10, 10, 5, 1, 1);
         this.velocity = velocity;
-        // TODO: Should enemies within the same level have varying stats?
-        this.statMap = new EnumMap<>(Stat.class);
-        this.statMap.put(Stat.HP, 5);
-        this.statMap.put(Stat.ATTACK, 1);
-        this.statMap.put(Stat.DEFENSE, 1);
-        this.statMap.put(Stat.SPEED, 1);
-    }
-
-    @Override
-    public int getStatValue(Stat type) {
-        return statMap.get(type);
-    }
-
-    @Override
-    public void addToStat(Stat type, int delta) {
-        statMap.put(type, statMap.get(type) + delta);
     }
 
     @Override
@@ -54,16 +35,19 @@ public class Enemy extends Entity implements Statable {
         double dy = (yPos > g.player.getY()) ? -Math.sin(Math.atan2(Math.abs(yPos - g.player.getY()), Math.abs(xPos - g.player.getX()))) * velocity : Math.sin(Math.atan2(Math.abs(yPos - g.player.getY()), Math.abs(xPos - g.player.getX()))) * velocity;
 
         double fracTime = Util.getFracOfTimeElapsed(prevNS, ns);
-        xPos += dx * fracTime;
-        yPos += dy * fracTime;
+        xPos += dx * fracTime * ((getStatValue(SPEED) - 1) / 10.0 + 1);
+        yPos += dy * fracTime * ((getStatValue(SPEED) - 1) / 10.0 + 1);
 
         keepInBounds(); // If the enemy has moved out-of-bounds, move them back in
 
         Entity collision = checkCollision(g);
         if (collision != null) {
             if (collision instanceof Projectile) {
-                g.removeEntity(this);
-                g.removeEntity(collision);
+                Projectile p = (Projectile)collision;
+                g.removeEntity(p);
+                if (addToStat(HP, -p.getDamage()) == 0) {
+                    g.removeEntity(this);
+                }
             }
             if (collision instanceof Player) {
                 xPos -= dx * fracTime;

@@ -9,13 +9,24 @@ import javafx.scene.paint.Color;
 public class Projectile extends Entity {
     private double dx;
     private double dy;
-    private int bounceCount = 0;
+    private int damage;
+    private int bounceCount;
+    private boolean playerShot;
 
-    public Projectile(double startX, double startY, double mouseX, double mouseY, double velocity) {
+    public Projectile(double startX, double startY, double mouseX, double mouseY, double velocity, int damage, boolean playerShot) {
         super(startX, startY, 10, 10);
-
         dx = (xPos > mouseX) ? -Math.cos(Math.atan2(Math.abs(yPos - mouseY), Math.abs(xPos - mouseX))) * velocity : Math.cos(Math.atan2(Math.abs(yPos - mouseY), Math.abs(xPos - mouseX))) * velocity;
         dy = (yPos > mouseY) ? -Math.sin(Math.atan2(Math.abs(yPos - mouseY), Math.abs(xPos - mouseX))) * velocity : Math.sin(Math.atan2(Math.abs(yPos - mouseY), Math.abs(xPos - mouseX))) * velocity;
+        this.damage = damage;
+        this.playerShot = playerShot;
+    }
+
+    public int getDamage() {
+        return damage;
+    }
+
+    public boolean playerIgnore() {
+        return playerShot && bounceCount == 0;
     }
 
     @Override
