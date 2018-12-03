@@ -2,6 +2,8 @@ package com.github.jmatcj.ld43.entity;
 
 import com.github.jmatcj.ld43.Game;
 import com.github.jmatcj.ld43.util.Util;
+
+import javafx.application.Platform;
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.paint.Color;
 import javafx.scene.text.TextAlignment;
@@ -27,8 +29,6 @@ public class Enemy extends StatableEntity {
 
     @Override
     public void update(long ns, Game g) {
-        // TODO
-        // - Make it so there are multiple enemies
         if (prevNS == 0) {
             updateNS(ns);
         }
@@ -41,14 +41,19 @@ public class Enemy extends StatableEntity {
         yPos += dy * frameMovement;
 
         keepInBounds(); // If the enemy has moved out-of-bounds, move them back in
+        
+        g.spawnEntity(new Projectile(xPos, yPos, xPos + 10, yPos + 10, 500 * ((getStatValue(BULLETSPEED) - 1) / 10.0 + 1), getStatValue(ATTACK), false, true));
+
 
         Entity collision = checkCollision(g);
         if (collision != null) {
             if (collision instanceof Projectile) {
                 Projectile p = (Projectile)collision;
-                g.removeEntity(p);
-                if (addToStat(HP, -p.getDamage()) == 0) {
-                    g.removeEntity(this);
+                if (!p.enemyIgnore()) {
+                    g.removeEntity(p);
+                    if (addToStat(HP, -p.getDamage()) == 0) {
+                        Platform.exit(); // END THE GAME
+                    }
                 }
             }
             if (collision instanceof Player) {
