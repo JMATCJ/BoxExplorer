@@ -63,12 +63,12 @@ public class Game {
 
     public void remakeEverything() {
         getLoadedEntities().forEach(e -> LDJam43.getGame().removeListener(e));
-        LDJam43.getGame().removeListener(currentMap.getCurrentRoom());
+        removeListener(currentMap.getCurrentRoom());
         currentMap = new Map(rng);
-        LDJam43.getGame().addListener(currentMap.getCurrentRoom());
-        LDJam43.getGame().spawnEntity(player);
+        addListener(currentMap.getCurrentRoom());
+        spawnEntity(player);
         stairCase = new StairCase(500.0, 100.0);
-        LDJam43.getGame().spawnEntity(stairCase);
+        spawnEntity(stairCase);
     }
 
     public boolean getNextArea() {

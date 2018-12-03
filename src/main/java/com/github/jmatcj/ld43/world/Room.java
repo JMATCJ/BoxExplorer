@@ -76,8 +76,6 @@ public class Room implements Updatable, Drawable {
         for (Direction dir : Direction.VALUES) {
             if (hasAdjacentRoom(dir)) {
                 Player p = g.player;
-//                yPos + height >= e.yPos && yPos <= e.yPos + e.height &&
-//                xPos + width >= e.xPos && xPos <= e.xPos + e.width
                 if (p.getX() <= HALLWAYS_X[dir.ordinal()] + HALLWAY_SIZE && p.getX() + p.getWidth() >= HALLWAYS_X[dir.ordinal()] &&
                         p.getY() <= HALLWAYS_Y[dir.ordinal()] + HALLWAY_SIZE && p.getY() + p.getHeight() >= HALLWAYS_Y[dir.ordinal()]) {
                     g.queueRoomTransition(dir);
