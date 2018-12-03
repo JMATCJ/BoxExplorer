@@ -4,6 +4,7 @@ import com.github.jmatcj.ld43.entity.Enemy;
 import com.github.jmatcj.ld43.entity.Entity;
 import com.github.jmatcj.ld43.entity.ItemEntity;
 import com.github.jmatcj.ld43.entity.Player;
+import com.github.jmatcj.ld43.entity.StairCase;
 import com.github.jmatcj.ld43.entity.Switch;
 import com.github.jmatcj.ld43.event.EventListener;
 import com.github.jmatcj.ld43.gui.DrawStats;
@@ -33,10 +34,9 @@ public class Game {
     private Set<KeyCode> keyDown;
     private Map currentMap;
     private Room.Direction nextRoom;
-    public Entity enemy = new Enemy(rng.nextInt((LDJam43.SCREEN_WIDTH) + 1), rng.nextInt((LDJam43.SCREEN_HEIGHT) + 1), 50);
     public Player player = new Player(384.0, 384.0, 100);
     public Entity item = new ItemEntity(200.0, 200.0);
-    public Entity switchEntity = new Switch(150.0, 600.0);
+    public Entity stairCase = new StairCase(500.0, 100.0);
 
     public Game() {
         currentMap = new Map(rng);
@@ -51,6 +51,7 @@ public class Game {
         addListener(currentMap.getCurrentRoom());
         spawnEntity(player); // TODO Move this later
         spawnEntity(item);
+        spawnEntity(stairCase);
     }
 
     public Random getRNG() {

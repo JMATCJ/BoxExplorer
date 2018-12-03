@@ -1,22 +1,21 @@
 package com.github.jmatcj.ld43.entity;
 
 import com.github.jmatcj.ld43.Game;
-import com.github.jmatcj.ld43.world.Room;
 
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.paint.Color;
 
-public class Switch extends Entity {
+public class StairCase extends Entity{
+    
+    private static Color color = Color.RED;
 
-    private Color color = Color.BLACK;
-
-    public Switch(double xPos, double yPos) {
+    public StairCase(double xPos, double yPos) {
         super(xPos, yPos, 15.0, 15.0);
     }
-
-    public void toggleSwitch() {
+    
+    public static void activateStairCase() {
         color = Color.GREEN;
-        Room.checkSwitches();
+        //Move to next level logic
     }
 
     @Override

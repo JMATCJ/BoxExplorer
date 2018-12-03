@@ -5,6 +5,7 @@ import static com.github.jmatcj.ld43.LDJam43.*;
 import com.github.jmatcj.ld43.Game;
 import com.github.jmatcj.ld43.entity.Entity;
 import com.github.jmatcj.ld43.entity.Player;
+import com.github.jmatcj.ld43.entity.StairCase;
 import com.github.jmatcj.ld43.gui.Drawable;
 import com.github.jmatcj.ld43.tick.Updatable;
 import java.util.Collection;
@@ -18,7 +19,8 @@ public class Room implements Updatable, Drawable {
     private static final int HALLWAY_SIZE = 20;
     private static final int[] HALLWAYS_X = {SCREEN_WIDTH / 2 - HALLWAY_SIZE / 2, SCREEN_WIDTH / 2 - HALLWAY_SIZE / 2, 0, SCREEN_WIDTH - HALLWAY_SIZE};
     private static final int[] HALLWAYS_Y = {0, SCREEN_HEIGHT - HALLWAY_SIZE, SCREEN_HEIGHT / 2 - HALLWAY_SIZE / 2, SCREEN_HEIGHT / 2 - HALLWAY_SIZE / 2};
-
+    private static int total = 0;
+    
     public enum Direction {
         UP,
         DOWN,
@@ -69,6 +71,13 @@ public class Room implements Updatable, Drawable {
 
     void addAdjacentRoom(Direction dir, Room other) {
         adjacentRooms.put(dir, other);
+    }
+    
+    public static void checkSwitches() {
+        total++;
+        if (total == Map.getSwitchCount()) {
+            StairCase.activateStairCase();
+        }
     }
 
     @Override

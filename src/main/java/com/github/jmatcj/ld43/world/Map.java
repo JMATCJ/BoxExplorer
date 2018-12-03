@@ -13,6 +13,7 @@ import java.util.Random;
 public class Map {
     private List<Room> rooms;
     private int curRoom;
+    private static int switchNum;
 
     // TODO Things a Map will probably need
     //  * Number of rooms
@@ -34,6 +35,8 @@ public class Map {
     public Room getCurrentRoom() {
         return rooms.get(curRoom);
     }
+    
+    public static int getSwitchCount() {return switchNum;}
 
     /**
      * Call this when the player moves to the next room.
@@ -62,9 +65,9 @@ public class Map {
         tmp = rng.nextInt((6)) + 4;
         for (int i = 0; i < tmp; i++) {
             Entity switchEntity = new Switch(rng.nextInt(((LDJam43.SCREEN_WIDTH - 50) + 50)), rng.nextInt(((LDJam43.SCREEN_HEIGHT - 50) + 50)));
-            rooms.get(rng.nextInt((rooms.size()) + 1)).addEntity(switchEntity);;
+            rooms.get(rng.nextInt(rooms.size()) + 1).addEntity(switchEntity);
         }
-        
+        switchNum = tmp;
     }
 
     private void generatePaths(int numRooms, Random rng) {
