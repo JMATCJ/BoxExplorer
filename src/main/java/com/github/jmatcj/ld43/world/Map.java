@@ -50,7 +50,7 @@ public class Map {
     public void updateSwitchCount() {
         toggledSwitches++;
         if (toggledSwitches == totalSwitches) {
-            LDJam43.getGame().stairCase.activateStairCase();
+            LDJam43.getGame().stairCase.activate();
         }
     }
 

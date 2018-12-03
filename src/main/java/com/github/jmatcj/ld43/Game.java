@@ -8,6 +8,7 @@ import com.github.jmatcj.ld43.entity.StairCase;
 import com.github.jmatcj.ld43.event.EventListener;
 import com.github.jmatcj.ld43.gui.DrawStats;
 import com.github.jmatcj.ld43.gui.Drawable;
+import com.github.jmatcj.ld43.stat.Stat;
 import com.github.jmatcj.ld43.tick.Updatable;
 import com.github.jmatcj.ld43.world.Map;
 import com.github.jmatcj.ld43.world.Room;
@@ -34,7 +35,7 @@ public class Game {
     private Room.Direction nextRoom;
     private boolean nextArea = false;
     public Player player = new Player(384.0, 384.0, 100);
-    public Entity item = new Item(200.0, 200.0);
+    public Item item = new Item(200.0, 200.0);
     public StairCase stairCase = new StairCase(500.0, 100.0);
 
 
@@ -46,6 +47,10 @@ public class Game {
         updateListeners = new CopyOnWriteArraySet<>();
         drawListeners = new CopyOnWriteArraySet<>();
         keyDown = new HashSet<>();
+
+        item.addStatChange(Stat.HP, -5);
+        item.addStatChange(Stat.ATTACK, 5);
+        item.addStatChange(Stat.SPEED, 5);
 
         addListener(new DrawStats());
         addListener(currentMap.getCurrentRoom());

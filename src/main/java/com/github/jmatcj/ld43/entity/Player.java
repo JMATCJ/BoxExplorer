@@ -81,8 +81,10 @@ public class Player extends StatableEntity {
 
         // Since this code should always be the same, no matter which way we're moving, we can keep it once down here
         if (collision instanceof Item) {
-            g.removeEntity(collision);
-            //Add item power up
+            if (g.getKeyDown().contains(KeyCode.SPACE)) {
+                g.removeEntity(collision);
+                ((Item)collision).applyStatChanges(this);
+            }
         }
         if (collision instanceof Switch) {
             ((Switch) collision).toggleSwitch();
@@ -97,7 +99,9 @@ public class Player extends StatableEntity {
             }
         }
         if (collision instanceof StairCase) {
-            LDJam43.getGame().setNextArea();
+            if (((StairCase)collision).isActivated()) {
+                LDJam43.getGame().setNextArea();
+            }
         }
 
         updateNS(ns);

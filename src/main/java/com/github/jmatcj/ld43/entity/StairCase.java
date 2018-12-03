@@ -13,9 +13,13 @@ public class StairCase extends Entity{
         super(xPos, yPos, 25.0, 25.0);
     }
     
-    public void activateStairCase() {
+    public void activate() {
         color = Color.GREEN;
         //Move to next level logic
+    }
+
+    public boolean isActivated() {
+        return color == Color.GREEN;
     }
 
     @Override
