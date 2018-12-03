@@ -17,7 +17,7 @@ public class Enemy extends StatableEntity {
     private double velocity;
     private int i = 0;
     Random rng = Game.getRng();
-    private int RATE = rng.nextInt((20) + 10);
+    private int RATE = rng.nextInt(10) + 10;
 
     public Enemy(double xPos, double yPos, double velocity, int bHealth, int bAttack, int bSpeed, int bBulletSpeed) {
         super(xPos, yPos, 10, 10, bHealth, bAttack, bSpeed, bBulletSpeed);
@@ -49,7 +49,7 @@ public class Enemy extends StatableEntity {
         keepInBounds(); // If the enemy has moved out-of-bounds, move them back in
         
         if (i == RATE) {
-            g.spawnEntity(new Projectile(xPos, yPos, xPos + 10, yPos + 10, 500 * ((getStatValue(BULLETSPEED) - 1) / 10.0 + 1), getStatValue(ATTACK), false, true));
+            g.spawnEntity(new Projectile(xPos, yPos, g.player.getX(), g.player.getY(), 500 * ((getStatValue(BULLETSPEED) - 1) / 10.0 + 1), getStatValue(ATTACK), false, true));
             i = 0;
         }
         i++;
