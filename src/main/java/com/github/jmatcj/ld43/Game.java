@@ -1,5 +1,6 @@
 package com.github.jmatcj.ld43;
 
+import com.github.jmatcj.ld43.entity.Enemy;
 import com.github.jmatcj.ld43.entity.Entity;
 import com.github.jmatcj.ld43.entity.Item;
 import com.github.jmatcj.ld43.entity.Player;
@@ -140,8 +141,24 @@ public class Game {
     public void handleRoomTransition() {
         if (nextRoom != null) {
             currentMap.getCurrentRoom().removeEntity(player);
-            currentMap.transition(nextRoom);
+            Room.Direction dir = currentMap.transition(nextRoom);
             currentMap.getCurrentRoom().addEntity(player);
+            getLoadedEntities().stream().filter(e -> e instanceof Enemy).forEach(e -> {
+                switch (dir) {
+                    case RIGHT:
+                        e.setNewPos(rng.nextInt(LDJam43.SCREEN_WIDTH / 2) + LDJam43.SCREEN_WIDTH / 2.0, rng.nextInt(LDJam43.SCREEN_HEIGHT));
+                        break;
+                    case LEFT:
+                        e.setNewPos(rng.nextInt(LDJam43.SCREEN_WIDTH / 2), rng.nextInt(LDJam43.SCREEN_HEIGHT));
+                        break;
+                    case UP:
+                        e.setNewPos(rng.nextInt(LDJam43.SCREEN_WIDTH), rng.nextInt(LDJam43.SCREEN_HEIGHT / 2));
+                        break;
+                    case DOWN:
+                        e.setNewPos(rng.nextInt(LDJam43.SCREEN_WIDTH), rng.nextInt(LDJam43.SCREEN_HEIGHT / 2) + LDJam43.SCREEN_HEIGHT / 2.0);
+                        break;
+                }
+            });
             switch(nextRoom) {
                 case UP:
                     player.setNewPos(LDJam43.SCREEN_WIDTH / 2.0, LDJam43.SCREEN_HEIGHT - 40);

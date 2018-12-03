@@ -1,7 +1,6 @@
 package com.github.jmatcj.ld43;
 
 import com.github.jmatcj.ld43.util.AssetLoader;
-import com.github.jmatcj.ld43.world.Map;
 import javafx.animation.AnimationTimer;
 import javafx.application.Application;
 import javafx.scene.Group;

@@ -60,13 +60,28 @@ public class Map {
      * @param traveled The direction they went to get to the next room
      * @return The new room the player moved into
      */
-    public Room transition(Room.Direction traveled) {
+    public Room.Direction transition(Room.Direction traveled) {
+        Room.Direction dir = null;
         rooms.get(curRoom).getEntities().forEach(e -> LDJam43.getGame().removeListener(e));
         LDJam43.getGame().removeListener(rooms.get(curRoom));
+        switch(traveled) {
+            case RIGHT:
+                dir = Room.Direction.RIGHT;
+                break;
+            case LEFT:
+                dir = Room.Direction.LEFT;
+                break;
+            case DOWN:
+                dir = Room.Direction.DOWN;
+                break;
+            case UP:
+                dir = Room.Direction.UP;
+                break;
+        }
         curRoom = rooms.get(curRoom).getAdjacentRoom(traveled).getNum();
         LDJam43.getGame().addListener(rooms.get(curRoom));
         rooms.get(curRoom).getEntities().forEach(e -> LDJam43.getGame().addListener(e));
-        return getCurrentRoom();
+        return dir;
     }
 
     private void populateRooms(Random rng) {
