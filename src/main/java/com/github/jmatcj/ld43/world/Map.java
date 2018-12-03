@@ -51,16 +51,20 @@ public class Map {
     }
 
     private void populateRooms(Random rng) {
+        int tmp;
         for (int i = 1; i < rooms.size(); i++) {
-            for (int k = 0; k < rng.nextInt((10) + 1); k++) {
+            tmp = rng.nextInt(10);
+            for (int k = 0; k < tmp; k++) {
                 Entity enemy = new Enemy(rng.nextInt((LDJam43.SCREEN_WIDTH) + 1), rng.nextInt((LDJam43.SCREEN_HEIGHT) + 1), 50);
                 rooms.get(i).addEntity(enemy);
             }
         }
-        for (int i = 0; i < rng.nextInt((6) + 4); i++) {
+        tmp = rng.nextInt((6)) + 4;
+        for (int i = 0; i < tmp; i++) {
             Entity switchEntity = new Switch(rng.nextInt(((LDJam43.SCREEN_WIDTH - 50) + 50)), rng.nextInt(((LDJam43.SCREEN_HEIGHT - 50) + 50)));
             rooms.get(rng.nextInt((rooms.size()) + 1)).addEntity(switchEntity);;
         }
+        
     }
 
     private void generatePaths(int numRooms, Random rng) {
