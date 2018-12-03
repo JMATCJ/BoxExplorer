@@ -54,6 +54,7 @@ public class Game {
     }
     
     public void spawnEnemy() {
+        Entity enemy = new Enemy(rng.nextInt((LDJam43.SCREEN_WIDTH) + 1), rng.nextInt((LDJam43.SCREEN_HEIGHT) + 1), 50);
         spawnEntity(enemy);
     }
 
