@@ -1,6 +1,7 @@
 package com.github.jmatcj.ld43.entity;
 
 import com.github.jmatcj.ld43.Game;
+import com.github.jmatcj.ld43.LDJam43;
 import com.github.jmatcj.ld43.util.Util;
 
 import javafx.application.Platform;
@@ -10,8 +11,13 @@ import javafx.scene.text.TextAlignment;
 
 import static com.github.jmatcj.ld43.stat.Stat.*;
 
+import java.util.Random;
+
 public class Enemy extends StatableEntity {
     private double velocity;
+    private int i = 0;
+    Random rng = Game.getRng();
+    private int RATE = rng.nextInt((20) + 10);
 
     public Enemy(double xPos, double yPos, double velocity, int bHealth, int bAttack, int bSpeed, int bBulletSpeed) {
         super(xPos, yPos, 10, 10, bHealth, bAttack, bSpeed, bBulletSpeed);
@@ -42,8 +48,11 @@ public class Enemy extends StatableEntity {
 
         keepInBounds(); // If the enemy has moved out-of-bounds, move them back in
         
-        g.spawnEntity(new Projectile(xPos, yPos, xPos + 10, yPos + 10, 500 * ((getStatValue(BULLETSPEED) - 1) / 10.0 + 1), getStatValue(ATTACK), false, true));
-
+        if (i == RATE) {
+            g.spawnEntity(new Projectile(xPos, yPos, xPos + 10, yPos + 10, 500 * ((getStatValue(BULLETSPEED) - 1) / 10.0 + 1), getStatValue(ATTACK), false, true));
+            i = 0;
+        }
+        i++;
 
         Entity collision = checkCollision(g);
         if (collision != null) {
@@ -52,7 +61,7 @@ public class Enemy extends StatableEntity {
                 if (!p.enemyIgnore()) {
                     g.removeEntity(p);
                     if (addToStat(HP, -p.getDamage()) == 0) {
-                        Platform.exit(); // END THE GAME
+                        g.removeEntity(this);
                     }
                 }
             }

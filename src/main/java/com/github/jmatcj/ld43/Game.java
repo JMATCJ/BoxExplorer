@@ -25,7 +25,7 @@ import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
 
 public class Game {
-    private final Random rng = new Random();
+    private final static Random rng = new Random();
     private final Queue<InputEvent> queuedEvents;
     private final Set<EventListener> eventListeners;
     private final Set<Updatable> updateListeners;
@@ -58,6 +58,8 @@ public class Game {
         spawnEntity(item);
         spawnEntity(stairCase);
     }
+    
+    public static Random getRng() {return rng;}
 
     public void updateSwitchCount() {
         currentMap.updateSwitchCount();

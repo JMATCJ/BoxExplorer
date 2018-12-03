@@ -32,7 +32,7 @@ public class Projectile extends Entity {
     }
     
     public boolean enemyIgnore() {
-        return enemyShot && bounceCount == 0;
+        return enemyShot;
     }
 
     @Override
