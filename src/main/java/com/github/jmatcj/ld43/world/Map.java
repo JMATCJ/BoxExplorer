@@ -2,6 +2,9 @@ package com.github.jmatcj.ld43.world;
 
 import com.github.jmatcj.ld43.Game;
 import com.github.jmatcj.ld43.LDJam43;
+import com.github.jmatcj.ld43.entity.Enemy;
+import com.github.jmatcj.ld43.entity.Entity;
+
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
@@ -37,20 +40,22 @@ public class Map {
      * @param traveled The direction they went to get to the next room
      * @return The new room the player moved into
      */
-    public Room transition(Room.Direction traveled, Game g, Random rng) {
+    public Room transition(Room.Direction traveled) {
         rooms.get(curRoom).getEntities().forEach(e -> LDJam43.getGame().removeListener(e));
         LDJam43.getGame().removeListener(rooms.get(curRoom));
         curRoom = rooms.get(curRoom).getAdjacentRoom(traveled).getNum();
         LDJam43.getGame().addListener(rooms.get(curRoom));
         rooms.get(curRoom).getEntities().forEach(e -> LDJam43.getGame().addListener(e));
-        for (int i = 0; i < rng.nextInt((10) + 1); i++) {
-            g.spawnEnemy();
-        }
         return getCurrentRoom();
     }
 
     private void populateRooms(Random rng) {
-        // TODO Populate the rooms in the map
+        for (int i = 0; i < rooms.size(); i++) {
+            for (int k = 0; k < rng.nextInt((10) + 1); k++) {
+                Entity enemy = new Enemy(rng.nextInt((LDJam43.SCREEN_WIDTH) + 1), rng.nextInt((LDJam43.SCREEN_HEIGHT) + 1), 50);
+                rooms.get(i).addEntity(enemy);
+            }
+        }
     }
 
     private void generatePaths(int numRooms, Random rng) {

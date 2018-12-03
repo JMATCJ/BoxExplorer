@@ -52,11 +52,6 @@ public class Game {
         spawnEntity(item);
         spawnEntity(switchEntity);
     }
-    
-    public void spawnEnemy() {
-        Entity enemy = new Enemy(rng.nextInt((LDJam43.SCREEN_WIDTH) + 1), rng.nextInt((LDJam43.SCREEN_HEIGHT) + 1), 50);
-        spawnEntity(enemy);
-    }
 
     public Random getRNG() {
         return rng;
@@ -119,7 +114,7 @@ public class Game {
     public void handleRoomTransition() {
         if (nextRoom != null) {
             currentMap.getCurrentRoom().removeEntity(player);
-            currentMap.transition(nextRoom, this, rng);
+            currentMap.transition(nextRoom);
             currentMap.getCurrentRoom().addEntity(player);
             switch(nextRoom) {
                 case UP:
