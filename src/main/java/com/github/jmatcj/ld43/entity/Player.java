@@ -15,7 +15,7 @@ public class Player extends StatableEntity {
     private double velocity;
 
     public Player(double xPos, double yPos, double velocity) {
-        super(xPos, yPos, 10, 10, 10, 1, 1);
+        super(xPos, yPos, 10, 10, 10, 1, 1, 1);
         this.velocity =  velocity;
     }
 
@@ -26,7 +26,7 @@ public class Player extends StatableEntity {
             MouseEvent evt = (MouseEvent)event;
             switch(evt.getButton()) {
                 case PRIMARY:
-                    g.spawnEntity(new Projectile(xPos, yPos, evt.getX(), evt.getY(),1250, getStatValue(ATTACK), true));
+                    g.spawnEntity(new Projectile(xPos, yPos, evt.getX(), evt.getY(),500 * ((getStatValue(BULLETSPEED) - 1) / 10.0 + 1), getStatValue(ATTACK), true));
                     break;
             }
         }
@@ -79,7 +79,7 @@ public class Player extends StatableEntity {
         keepInBounds(); // If the player moved out-of-bounds, move them back in
 
         // Since this code should always be the same, no matter which way we're moving, we can keep it once down here
-        if (collision instanceof ItemEntity) {
+        if (collision instanceof Item) {
             g.removeEntity(collision);
             //Add item power up
         }

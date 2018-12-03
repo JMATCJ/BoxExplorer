@@ -12,7 +12,7 @@ public class Enemy extends StatableEntity {
     private double velocity;
 
     public Enemy(double xPos, double yPos, double velocity) {
-        super(xPos, yPos, 10, 10, 5, 1, 1);
+        super(xPos, yPos, 10, 10, 5, 1, 1, 1);
         this.velocity = velocity;
     }
 
@@ -36,9 +36,9 @@ public class Enemy extends StatableEntity {
         double dx = (xPos > g.player.getX()) ? -Math.cos(Math.atan2(Math.abs(yPos - g.player.getY()), Math.abs(xPos - g.player.getX()))) * velocity : Math.cos(Math.atan2(Math.abs(yPos - g.player.getY()), Math.abs(xPos - g.player.getX()))) * velocity;
         double dy = (yPos > g.player.getY()) ? -Math.sin(Math.atan2(Math.abs(yPos - g.player.getY()), Math.abs(xPos - g.player.getX()))) * velocity : Math.sin(Math.atan2(Math.abs(yPos - g.player.getY()), Math.abs(xPos - g.player.getX()))) * velocity;
 
-        double fracTime = Util.getFracOfTimeElapsed(prevNS, ns);
-        xPos += dx * fracTime * ((getStatValue(SPEED) - 1) / 10.0 + 1);
-        yPos += dy * fracTime * ((getStatValue(SPEED) - 1) / 10.0 + 1);
+        double frameMovement = Util.getFracOfTimeElapsed(prevNS, ns) * ((getStatValue(SPEED) - 1) / 10.0 + 1);
+        xPos += dx * frameMovement;
+        yPos += dy * frameMovement;
 
         keepInBounds(); // If the enemy has moved out-of-bounds, move them back in
 
@@ -52,8 +52,8 @@ public class Enemy extends StatableEntity {
                 }
             }
             if (collision instanceof Player) {
-                xPos -= dx * fracTime;
-                yPos -= dy * fracTime;
+                xPos -= dx * frameMovement;
+                yPos -= dy * frameMovement;
             }
         }
 

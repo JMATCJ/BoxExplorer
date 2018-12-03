@@ -1,11 +1,9 @@
 package com.github.jmatcj.ld43.world;
 
-import com.github.jmatcj.ld43.Game;
 import com.github.jmatcj.ld43.LDJam43;
 import com.github.jmatcj.ld43.entity.Enemy;
 import com.github.jmatcj.ld43.entity.Entity;
 import com.github.jmatcj.ld43.entity.Switch;
-
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
@@ -13,7 +11,8 @@ import java.util.Random;
 public class Map {
     private List<Room> rooms;
     private int curRoom;
-    private static int switchNum;
+    private int totalSwitches;
+    private int toggledSwitches;
 
     // TODO Things a Map will probably need
     //  * Number of rooms
@@ -26,6 +25,7 @@ public class Map {
             rooms.add(new Room(i));
         }
         curRoom = 0;
+        toggledSwitches = 0;
 
         populateRooms(rng);
 
@@ -35,8 +35,13 @@ public class Map {
     public Room getCurrentRoom() {
         return rooms.get(curRoom);
     }
-    
-    public static int getSwitchCount() {return switchNum;}
+
+    public void updateSwitchCount() {
+        toggledSwitches++;
+        if (toggledSwitches == totalSwitches) {
+            LDJam43.getGame().stairCase.activateStairCase();
+        }
+    }
 
     /**
      * Call this when the player moves to the next room.
@@ -62,12 +67,11 @@ public class Map {
                 rooms.get(i).addEntity(enemy);
             }
         }
-        tmp = rng.nextInt((6)) + 4;
-        for (int i = 0; i < tmp; i++) {
+        totalSwitches = rng.nextInt(3) + 3;
+        for (int i = 0; i < totalSwitches; i++) {
             Entity switchEntity = new Switch(rng.nextInt(((LDJam43.SCREEN_WIDTH - 50) + 50)), rng.nextInt(((LDJam43.SCREEN_HEIGHT - 50) + 50)));
-            rooms.get(rng.nextInt(rooms.size()) + 1).addEntity(switchEntity);
+            rooms.get(rng.nextInt(rooms.size() - 1) + 1).addEntity(switchEntity);
         }
-        switchNum = tmp;
     }
 
     private void generatePaths(int numRooms, Random rng) {

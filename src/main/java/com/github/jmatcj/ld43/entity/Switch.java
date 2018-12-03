@@ -1,8 +1,7 @@
 package com.github.jmatcj.ld43.entity;
 
 import com.github.jmatcj.ld43.Game;
-import com.github.jmatcj.ld43.world.Room;
-
+import com.github.jmatcj.ld43.LDJam43;
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.paint.Color;
 
@@ -15,8 +14,10 @@ public class Switch extends Entity {
     }
 
     public void toggleSwitch() {
-        color = Color.GREEN;
-        Room.checkSwitches();
+        if (color == Color.BLACK) {
+            color = Color.GREEN;
+            LDJam43.getGame().updateSwitchCount();
+        }
     }
 
     @Override

@@ -3,7 +3,8 @@ package com.github.jmatcj.ld43.stat;
 public enum Stat {
     HP(0),
     ATTACK(1),
-    SPEED(1);
+    SPEED(1),
+    BULLETSPEED(1);
 
     private int minValue;
 

@@ -10,12 +10,13 @@ import java.util.Map;
 public class StatableEntity extends Entity implements Statable {
     private Map<Stat, Integer> statMap;
 
-    protected StatableEntity(double xPos, double yPos, double width, double height, int baseHealth, int baseAttack, int baseSpeed) {
+    protected StatableEntity(double xPos, double yPos, double width, double height, int baseHealth, int baseAttack, int baseSpeed, int baseBulletSpeed) {
         super(xPos, yPos, width, height);
         this.statMap = new EnumMap<>(Stat.class);
         this.statMap.put(HP, baseHealth);
         this.statMap.put(ATTACK, baseAttack);
         this.statMap.put(SPEED, baseSpeed);
+        this.statMap.put(BULLETSPEED, baseBulletSpeed);
     }
 
     @Override

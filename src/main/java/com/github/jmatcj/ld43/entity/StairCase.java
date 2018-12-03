@@ -7,13 +7,13 @@ import javafx.scene.paint.Color;
 
 public class StairCase extends Entity{
     
-    private static Color color = Color.RED;
+    private Color color = Color.RED;
 
     public StairCase(double xPos, double yPos) {
-        super(xPos, yPos, 15.0, 15.0);
+        super(xPos, yPos, 25.0, 25.0);
     }
     
-    public static void activateStairCase() {
+    public void activateStairCase() {
         color = Color.GREEN;
         //Move to next level logic
     }
