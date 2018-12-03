@@ -48,7 +48,6 @@ public class Game {
 
         addListener(currentMap.getCurrentRoom());
         spawnEntity(player); // TODO Move this later
-        spawnEntity(enemy);  // TODO make this its own class like spawn/control enemies
         spawnEntity(item);
         spawnEntity(switchEntity);
     }

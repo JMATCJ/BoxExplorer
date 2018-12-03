@@ -50,7 +50,7 @@ public class Map {
     }
 
     private void populateRooms(Random rng) {
-        for (int i = 0; i < rooms.size(); i++) {
+        for (int i = 1; i < rooms.size(); i++) {
             for (int k = 0; k < rng.nextInt((10) + 1); k++) {
                 Entity enemy = new Enemy(rng.nextInt((LDJam43.SCREEN_WIDTH) + 1), rng.nextInt((LDJam43.SCREEN_HEIGHT) + 1), 50);
                 rooms.get(i).addEntity(enemy);
