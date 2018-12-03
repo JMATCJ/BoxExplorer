@@ -38,7 +38,7 @@ public class Game {
 
 
     public Game() {
-        currentMap = new Map(rng);
+        currentMap = new Map(rng, 0);
         nextRoom = null;
         queuedEvents = new LinkedList<>();
         eventListeners = new CopyOnWriteArraySet<>();
@@ -64,7 +64,7 @@ public class Game {
     public void remakeEverything() {
         getLoadedEntities().forEach(e -> LDJam43.getGame().removeListener(e));
         removeListener(currentMap.getCurrentRoom());
-        currentMap = new Map(rng);
+        currentMap = new Map(rng, 1);
         addListener(currentMap.getCurrentRoom());
         spawnEntity(player);
         stairCase = new StairCase(500.0, 100.0);

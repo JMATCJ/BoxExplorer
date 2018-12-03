@@ -11,8 +11,8 @@ import static com.github.jmatcj.ld43.stat.Stat.*;
 public class Enemy extends StatableEntity {
     private double velocity;
 
-    public Enemy(double xPos, double yPos, double velocity) {
-        super(xPos, yPos, 10, 10, 5, 1, 1, 1);
+    public Enemy(double xPos, double yPos, double velocity, int bHealth, int bAttack, int bSpeed, int bBulletSpeed) {
+        super(xPos, yPos, 10, 10, bHealth, bAttack, bSpeed, bBulletSpeed);
         this.velocity = velocity;
     }
 

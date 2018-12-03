@@ -13,11 +13,12 @@ public class Map {
     private int curRoom;
     private int totalSwitches;
     private int toggledSwitches;
+    private int powerMeter;
 
     // TODO Things a Map will probably need
     //  * Number of rooms
     //  * Maybe something else
-    public Map(Random rng) {
+    public Map(Random rng, int powerMeter) {
         int numRooms = rng.nextInt(11) + 10; // Will generate between 10 - 20 rooms inclusive
         // Create the rooms
         rooms = new ArrayList<>(numRooms);
@@ -26,6 +27,8 @@ public class Map {
         }
         curRoom = 0;
         toggledSwitches = 0;
+
+        this.powerMeter += powerMeter;
 
         populateRooms(rng);
 
@@ -63,7 +66,7 @@ public class Map {
         for (int i = 1; i < rooms.size(); i++) {
             tmp = rng.nextInt(10);
             for (int k = 0; k < tmp; k++) {
-                Entity enemy = new Enemy(rng.nextInt((LDJam43.SCREEN_WIDTH) + 1), rng.nextInt((LDJam43.SCREEN_HEIGHT) + 1), 50);
+                Entity enemy = new Enemy(rng.nextInt((LDJam43.SCREEN_WIDTH) + 1), rng.nextInt((LDJam43.SCREEN_HEIGHT) + 1), 50, 5 + powerMeter, 1 + powerMeter, 1 + powerMeter * 10, 1 + powerMeter);
                 rooms.get(i).addEntity(enemy);
             }
         }
