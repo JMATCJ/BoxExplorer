@@ -31,7 +31,9 @@ public class Projectile extends Entity {
 
     @Override
     public void draw(GraphicsContext gc, Game g) {
+        gc.save();
         drawSquare(gc, Color.BLUE, false);
+        gc.restore();
     }
 
     @Override

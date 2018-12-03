@@ -6,6 +6,7 @@ import com.github.jmatcj.ld43.entity.ItemEntity;
 import com.github.jmatcj.ld43.entity.Player;
 import com.github.jmatcj.ld43.entity.Switch;
 import com.github.jmatcj.ld43.event.EventListener;
+import com.github.jmatcj.ld43.gui.DrawStats;
 import com.github.jmatcj.ld43.gui.Drawable;
 import com.github.jmatcj.ld43.tick.Updatable;
 import com.github.jmatcj.ld43.world.Map;
@@ -46,6 +47,7 @@ public class Game {
         drawListeners = new CopyOnWriteArraySet<>();
         keyDown = new HashSet<>();
 
+        addListener(new DrawStats());
         addListener(currentMap.getCurrentRoom());
         spawnEntity(player); // TODO Move this later
         spawnEntity(item);

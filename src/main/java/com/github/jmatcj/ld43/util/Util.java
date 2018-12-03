@@ -4,6 +4,7 @@ import com.github.jmatcj.ld43.entity.Entity;
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.paint.Color;
 import javafx.scene.text.Font;
+import javafx.scene.text.FontWeight;
 import javafx.scene.text.TextAlignment;
 import javafx.scene.transform.Rotate;
 
@@ -57,6 +58,7 @@ public class Util {
     // TODO: Fix this with whatever font we're going to use
     public static void drawText(GraphicsContext gc, Color fontColor, int fontSize, TextAlignment alignment, String text, int x, int y) {
         gc.setFill(fontColor);
+        gc.setFont(Font.font("Verdana", FontWeight.BOLD, fontSize));
         //gc.setFont(Font.loadFont(AssetLoader.getFontLoc(), fontSize));
         gc.setTextAlign(alignment);
         gc.fillText(text, x, y);
