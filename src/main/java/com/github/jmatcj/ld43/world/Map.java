@@ -4,6 +4,7 @@ import com.github.jmatcj.ld43.Game;
 import com.github.jmatcj.ld43.LDJam43;
 import com.github.jmatcj.ld43.entity.Enemy;
 import com.github.jmatcj.ld43.entity.Entity;
+import com.github.jmatcj.ld43.entity.Switch;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -55,6 +56,10 @@ public class Map {
                 Entity enemy = new Enemy(rng.nextInt((LDJam43.SCREEN_WIDTH) + 1), rng.nextInt((LDJam43.SCREEN_HEIGHT) + 1), 50);
                 rooms.get(i).addEntity(enemy);
             }
+        }
+        for (int i = 0; i < rng.nextInt((6) + 4); i++) {
+            Entity switchEntity = new Switch(rng.nextInt(((LDJam43.SCREEN_WIDTH - 50) + 50)), rng.nextInt(((LDJam43.SCREEN_HEIGHT - 50) + 50)));
+            rooms.get(rng.nextInt((rooms.size()) + 1)).addEntity(switchEntity);;
         }
     }
 

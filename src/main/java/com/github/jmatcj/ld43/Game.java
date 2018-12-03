@@ -51,7 +51,6 @@ public class Game {
         addListener(currentMap.getCurrentRoom());
         spawnEntity(player); // TODO Move this later
         spawnEntity(item);
-        spawnEntity(switchEntity);
     }
 
     public Random getRNG() {
