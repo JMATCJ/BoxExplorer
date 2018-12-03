@@ -31,6 +31,7 @@ public class Game {
     private Set<KeyCode> keyDown;
     private Map currentMap;
     private Room.Direction nextRoom;
+    private boolean nextArea = false;
     public Player player = new Player(384.0, 384.0, 100);
     public Entity item = new Item(200.0, 200.0);
     public StairCase stairCase = new StairCase(500.0, 100.0);
@@ -54,6 +55,24 @@ public class Game {
 
     public void updateSwitchCount() {
         currentMap.updateSwitchCount();
+    }
+
+    public void setNextArea() {
+        nextArea = !nextArea;
+    }
+
+    public void remakeEverything() {
+        getLoadedEntities().forEach(e -> LDJam43.getGame().removeListener(e));
+        LDJam43.getGame().removeListener(currentMap.getCurrentRoom());
+        currentMap = new Map(rng);
+        LDJam43.getGame().addListener(currentMap.getCurrentRoom());
+        LDJam43.getGame().spawnEntity(player);
+        stairCase = new StairCase(500.0, 100.0);
+        LDJam43.getGame().spawnEntity(stairCase);
+    }
+
+    public boolean getNextArea() {
+        return nextArea;
     }
 
     public void addToSet(KeyEvent evt) {

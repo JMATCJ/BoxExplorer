@@ -3,6 +3,7 @@ package com.github.jmatcj.ld43.entity;
 import static com.github.jmatcj.ld43.stat.Stat.*;
 
 import com.github.jmatcj.ld43.Game;
+import com.github.jmatcj.ld43.LDJam43;
 import com.github.jmatcj.ld43.util.Util;
 import javafx.application.Platform;
 import javafx.scene.canvas.GraphicsContext;
@@ -94,6 +95,9 @@ public class Player extends StatableEntity {
                     Platform.exit(); // END THE GAME
                 }
             }
+        }
+        if (collision instanceof StairCase) {
+            LDJam43.getGame().setNextArea();
         }
 
         updateNS(ns);
