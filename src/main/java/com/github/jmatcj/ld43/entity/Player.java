@@ -26,7 +26,7 @@ public class Player extends StatableEntity {
         if (event instanceof MouseEvent) {
             MouseEvent evt = (MouseEvent)event;
             if (evt.getButton() == MouseButton.PRIMARY) {
-                g.spawnEntity(new Projectile(xPos, yPos, evt.getX(), evt.getY(),500 * ((getStatValue(BULLETSPEED) - 1) / 10.0 + 1), getStatValue(ATTACK), true));
+                g.spawnEntity(new Projectile(xPos, yPos, evt.getX(), evt.getY(),500 * ((getStatValue(BULLETSPEED) - 1) / 10.0 + 1), getStatValue(ATTACK), true, Color.BLUE));
             }
         }
     }
