@@ -72,7 +72,7 @@ public class Entity implements Drawable, Updatable, EventListener {
         gc.fillRect(xPos, yPos, width, height);
         if (withFrontIndicator) {
             gc.setFill(Color.GREEN);
-            gc.fillRect(xPos, yPos + height / 2, 3, 1);
+            gc.fillRect(xPos, yPos + height / 2, 5, 1);
         }
     }
 

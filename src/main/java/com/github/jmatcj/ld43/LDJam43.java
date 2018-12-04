@@ -7,6 +7,7 @@ import javafx.scene.Group;
 import javafx.scene.Scene;
 import javafx.scene.canvas.Canvas;
 import javafx.scene.canvas.GraphicsContext;
+import javafx.scene.paint.Color;
 import javafx.stage.Stage;
 
 public class LDJam43 extends Application {
@@ -53,6 +54,8 @@ public class LDJam43 extends Application {
                 game.update(now);
 
                 gc.clearRect(0, 0, SCREEN_WIDTH, SCREEN_HEIGHT);
+                gc.setFill(Color.LIGHTGRAY);
+                gc.fillRect(0, 0, SCREEN_WIDTH, SCREEN_HEIGHT);
                 game.draw(gc);
             }
         };
@@ -64,8 +67,7 @@ public class LDJam43 extends Application {
     }
 
     @Override
-    public void stop() throws Exception {
-//        game.saveData();
+    public void stop() {
         gameLoop.stop();
     }
 
