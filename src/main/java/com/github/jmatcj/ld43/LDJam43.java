@@ -37,7 +37,7 @@ public class LDJam43 extends Application {
     }
 
     @Override
-    public void start(Stage primaryStage) throws Exception {
+    public void start(Stage primaryStage) {
         Canvas canvas = new Canvas(SCREEN_WIDTH, SCREEN_HEIGHT);
         Scene scene = new Scene(new Group(canvas), SCREEN_WIDTH - 10, SCREEN_HEIGHT - 10);
         primaryStage.setScene(scene);
