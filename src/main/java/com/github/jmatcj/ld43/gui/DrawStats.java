@@ -17,6 +17,7 @@ public class DrawStats implements Drawable {
         Util.drawText(gc, Color.BLACK, 20, TextAlignment.LEFT, "Speed = " + LDJam43.getGame().player.getStatValue(Stat.SPEED), 20, 80);
         Util.drawText(gc, Color.BLACK, 20, TextAlignment.LEFT, "Bullet Speed = " + LDJam43.getGame().player.getStatValue(Stat.BULLETSPEED), 20, 105);
         Util.drawText(gc, Color.BLACK, 20, TextAlignment.LEFT, "Remaining switches = " + (LDJam43.getGame().getRemainingSwitches()), 20, 130);
+        Util.drawText(gc, Color.BLACK, 20, TextAlignment.RIGHT, "Map Level = " + LDJam43.getGame().getRoomNum(), LDJam43.SCREEN_WIDTH - 20, 30);
         gc.restore();
     }
 }

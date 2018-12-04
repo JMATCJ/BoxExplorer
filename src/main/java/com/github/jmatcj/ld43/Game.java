@@ -33,12 +33,14 @@ public class Game {
     private Map currentMap;
     private Room.Direction nextRoom;
     private boolean nextArea;
+    private int roomNum;
     public Player player = new Player(384.0, 384.0, 100);
 
     public Game() {
         rng = new Random();
         currentMap = new Map(rng, 0);
         nextRoom = null;
+        roomNum = 1;
         queuedEvents = new LinkedList<>();
         eventListeners = new CopyOnWriteArraySet<>();
         updateListeners = new CopyOnWriteArraySet<>();
@@ -70,7 +72,12 @@ public class Game {
         return currentMap.getTotalSwitches() - currentMap.getToggledSwitches();
     }
 
+    public int getRoomNum() {
+        return roomNum;
+    }
+
     public void remakeEverything() {
+        roomNum++;
         currentMap.unloadCurrentRoom();
         currentMap = new Map(rng, 1);
         currentMap.loadCurrentRoom();
