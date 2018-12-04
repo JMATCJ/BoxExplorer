@@ -79,13 +79,13 @@ public class Entity implements Drawable, Updatable, EventListener {
     protected void keepInBounds() {
         if (xPos < 0) {
             xPos = 0;
-        } else if (xPos > LDJam43.SCREEN_WIDTH - width - 10) {
+        } else if (xPos > LDJam43.SCREEN_WIDTH - width) {
             xPos = LDJam43.SCREEN_WIDTH - width - 10;
         }
 
         if (yPos < 0) {
             yPos = 0;
-        } else if (yPos > LDJam43.SCREEN_HEIGHT - height - 10) {
+        } else if (yPos > LDJam43.SCREEN_HEIGHT - height) {
             yPos = LDJam43.SCREEN_HEIGHT - height - 10;
         }
     }
