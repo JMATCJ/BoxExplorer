@@ -4,11 +4,11 @@ import com.github.jmatcj.ld43.Game;
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.paint.Color;
 
-public class StairCase extends Entity {
+public class Ladder extends Entity {
     private Color color;
 
-    public StairCase(double xPos, double yPos) {
-        super(xPos, yPos, 25.0, 25.0);
+    public Ladder() {
+        super(500.0, 100.0, 25.0, 25.0);
         this.color = Color.RED;
     }
     

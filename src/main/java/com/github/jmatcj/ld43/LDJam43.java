@@ -45,9 +45,9 @@ public class LDJam43 extends Application {
         gameLoop = new AnimationTimer() {
             @Override
             public void handle(long now) {
-                if (getGame().getNextArea()) {
-                    getGame().setNextArea();
-                    getGame().remakeEverything();
+                if (game.getNextArea()) {
+                    game.setNextArea();
+                    game.remakeEverything();
                 }
                 game.handleRoomTransition();
                 game.update(now);
@@ -65,7 +65,6 @@ public class LDJam43 extends Application {
 
     @Override
     public void stop() throws Exception {
-//        game.saveData();
         gameLoop.stop();
     }
 

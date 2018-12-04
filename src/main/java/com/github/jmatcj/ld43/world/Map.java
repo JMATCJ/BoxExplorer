@@ -4,6 +4,7 @@ import com.github.jmatcj.ld43.LDJam43;
 import com.github.jmatcj.ld43.entity.Enemy;
 import com.github.jmatcj.ld43.entity.Entity;
 import com.github.jmatcj.ld43.entity.Item;
+import com.github.jmatcj.ld43.entity.Ladder;
 import com.github.jmatcj.ld43.entity.Switch;
 import com.github.jmatcj.ld43.stat.Stat;
 import java.util.ArrayList;
@@ -14,11 +15,12 @@ import java.util.Random;
 import javafx.scene.paint.Color;
 
 public class Map {
+    private static int powerMeter;
     private List<Room> rooms;
     private int curRoom;
     private int totalSwitches;
     private int toggledSwitches;
-    private int powerMeter;
+    private Ladder ladder;
 
     // TODO Things a Map will probably need
     //  * Number of rooms
@@ -33,7 +35,7 @@ public class Map {
         curRoom = 0;
         toggledSwitches = 0;
 
-        this.powerMeter += powerMeter;
+        Map.powerMeter += powerMeter;
 
         populateRooms(rng);
 
@@ -55,44 +57,36 @@ public class Map {
     public void updateSwitchCount() {
         toggledSwitches++;
         if (toggledSwitches == totalSwitches) {
-            LDJam43.getGame().stairCase.activate();
+            ladder.activate();
         }
+    }
+
+    public void loadCurrentRoom() {
+        LDJam43.getGame().addListener(rooms.get(curRoom));
+        rooms.get(curRoom).getEntities().forEach(e -> LDJam43.getGame().addListener(e));
+    }
+
+    public void unloadCurrentRoom() {
+        rooms.get(curRoom).getEntities().forEach(e -> LDJam43.getGame().removeListener(e));
+        LDJam43.getGame().removeListener(rooms.get(curRoom));
     }
 
     /**
      * Call this when the player moves to the next room.
      * This method will handle loading/unloading everything in both of the rooms
      * @param traveled The direction they went to get to the next room
-     * @return The new room the player moved into
      */
-    public Room.Direction transition(Room.Direction traveled) {
-        Room.Direction dir = null;
-        rooms.get(curRoom).getEntities().forEach(e -> LDJam43.getGame().removeListener(e));
-        LDJam43.getGame().removeListener(rooms.get(curRoom));
-        switch(traveled) {
-            case RIGHT:
-                dir = Room.Direction.RIGHT;
-                break;
-            case LEFT:
-                dir = Room.Direction.LEFT;
-                break;
-            case DOWN:
-                dir = Room.Direction.DOWN;
-                break;
-            case UP:
-                dir = Room.Direction.UP;
-                break;
-        }
+    public void transition(Room.Direction traveled) {
+        unloadCurrentRoom();
         curRoom = rooms.get(curRoom).getAdjacentRoom(traveled).getNum();
-        LDJam43.getGame().addListener(rooms.get(curRoom));
-        rooms.get(curRoom).getEntities().forEach(e -> LDJam43.getGame().addListener(e));
-        return dir;
+        loadCurrentRoom();
     }
 
     private void populateRooms(Random rng) {
         // Spawn Enemies
         int tmp;
         for (int i = 1; i < rooms.size(); i++) {
+
             tmp = rng.nextInt(10);
             for (int k = 0; k < tmp; k++) {
                 Entity enemy = new Enemy(rng.nextInt((LDJam43.SCREEN_WIDTH) + 1), rng.nextInt((LDJam43.SCREEN_HEIGHT) + 1), 50, 5 + powerMeter, 1 + powerMeter, 1 + powerMeter * 5, 1 + powerMeter);
@@ -138,6 +132,7 @@ public class Map {
                 rooms.get(rng.nextInt(rooms.size() - 1) + 1).addEntity(item);
             }
         }
+        rooms.get(0).addEntity(ladder = new Ladder());
     }
 
     private void generatePaths(int numRooms, Random rng) {
