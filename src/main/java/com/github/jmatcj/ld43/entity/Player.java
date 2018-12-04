@@ -6,6 +6,7 @@ import com.github.jmatcj.ld43.Game;
 import com.github.jmatcj.ld43.LDJam43;
 import com.github.jmatcj.ld43.util.Util;
 import javafx.application.Platform;
+import javafx.geometry.VPos;
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.input.InputEvent;
 import javafx.scene.input.KeyCode;
@@ -36,17 +37,18 @@ public class Player extends StatableEntity {
     @Override
     public void draw(GraphicsContext gc, Game g) {
         if (getStatValue(HP) == 0) {
+            g.endGame();
             gc.save();
-            gc.setFill(Color.BLACK); //Does not work
-            Util.drawText(gc, Color.RED, 40, TextAlignment.CENTER, "You Have Died,", 400, 200);
-            Util.drawText(gc, Color.RED, 40, TextAlignment.CENTER, "Plese press A to play again", 400, 300);
-            Util.drawText(gc, Color.RED, 40, TextAlignment.CENTER, "or E to exit", 400, 400);
+            gc.setFill(Color.BLACK);
+            gc.fillRect(0, 0, LDJam43.SCREEN_WIDTH, LDJam43.SCREEN_HEIGHT);
+            gc.setTextBaseline(VPos.CENTER);
+            Util.drawText(gc, Color.RED, 40, TextAlignment.CENTER, "You Have Died\nPress N for a New Game\nor E to Exit", LDJam43.SCREEN_WIDTH / 2.0, LDJam43.SCREEN_HEIGHT / 2.0);
             gc.restore();
             if (g.getKeyDown().contains(KeyCode.E)) {
                 Platform.exit();
             }
-            if (g.getKeyDown().contains(KeyCode.A)) {
-                g = new Game();
+            if (g.getKeyDown().contains(KeyCode.N)) {
+                LDJam43.setRemakeGame();
             }
             return;
         }
@@ -108,10 +110,7 @@ public class Player extends StatableEntity {
             Projectile p = (Projectile)collision;
             if (!p.playerIgnore()) {
                 g.removeEntity(p);
-                if (addToStat(HP, -p.getDamage()) == 0) {
-      
-                    //Platform.exit(); // END THE GAME
-                }
+                addToStat(HP, -p.getDamage());
             }
         }
         if (collision instanceof Ladder) {

@@ -6,7 +6,7 @@ import com.github.jmatcj.ld43.Game;
 import com.github.jmatcj.ld43.entity.Entity;
 import com.github.jmatcj.ld43.entity.Player;
 import com.github.jmatcj.ld43.gui.Drawable;
-import com.github.jmatcj.ld43.tick.Updatable;
+import com.github.jmatcj.ld43.handler.Updatable;
 import java.util.Collection;
 import java.util.EnumMap;
 import java.util.HashSet;

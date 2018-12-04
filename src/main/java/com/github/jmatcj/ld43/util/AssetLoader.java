@@ -12,47 +12,28 @@ import java.nio.file.Paths;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.Map;
-import javafx.scene.image.Image;
 import javafx.scene.media.Media;
 
 public class AssetLoader {
     private static final String ASSETS_DIR = "/assets/ld43/";
-    private static final String IMAGES_DIR = ASSETS_DIR + "images/";
     private static final String MUSIC_DIR = ASSETS_DIR + "music/";
-    // name:Image pairs
-    private static Map<String, Image> images;
     private static Map<String, Media> music;
 
     public static void initialize(boolean noMusic) throws IOException, URISyntaxException {
-        // IMAGES
-        images = new HashMap<>();
-        URI imagesURI = AssetLoader.class.getResource(IMAGES_DIR).toURI();
-        Path path;
-        char separator; // The separator is different inside JAR files on Windows
-        FileSystem fs = null; // Need a custom file system for JAR files...because reasons...
-        if (imagesURI.getScheme().equals("jar")) {
-            fs = FileSystems.newFileSystem(imagesURI, Collections.emptyMap());
-            path = fs.getPath(IMAGES_DIR);
-            separator = '/';
-        } else {
-            path = Paths.get(imagesURI);
-            separator = File.separatorChar;
-        }
-        Files.walk(path, 1).forEach(p -> {
-            if (p.toString().endsWith(".png") || p.toString().endsWith(".jpg")) {
-                String key = p.toString().substring(p.toString().lastIndexOf(separator) + 1);
-                System.out.println(key + " being loaded...");
-                images.put(key, new Image(p.toUri().toString().replace("%2520", "%20"))); // Cleanup bad spaces in path
-            }
-        });
         // MUSIC
         music = new HashMap<>();
+        FileSystem fs = null; // Need a custom file system for JAR files...because reasons...
         if (!noMusic) {
+            Path path;
             URI musicURI = AssetLoader.class.getResource(MUSIC_DIR).toURI();
+            char separator; // The separator is different inside JAR files on Windows
             if (musicURI.getScheme().equals("jar")) {
+                fs = FileSystems.newFileSystem(musicURI, Collections.emptyMap());
                 path = fs.getPath(MUSIC_DIR);
+                separator = '/';
             } else {
                 path = Paths.get(musicURI);
+                separator = File.separatorChar;
             }
             Files.walk(path, 1).forEach(p -> {
                 if (p.toString().endsWith(".mp3")) {
@@ -66,10 +47,6 @@ public class AssetLoader {
         if (fs != null) {
             fs.close();
         }
-    }
-
-    public static Image getImage(String name) {
-        return images.getOrDefault(name, null);
     }
 
     public static Media getMusic(String name) {

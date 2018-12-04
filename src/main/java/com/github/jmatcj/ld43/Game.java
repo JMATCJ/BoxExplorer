@@ -3,18 +3,14 @@ package com.github.jmatcj.ld43;
 import com.github.jmatcj.ld43.entity.Enemy;
 import com.github.jmatcj.ld43.entity.Entity;
 import com.github.jmatcj.ld43.entity.Player;
-import com.github.jmatcj.ld43.event.EventListener;
 import com.github.jmatcj.ld43.gui.DrawStats;
 import com.github.jmatcj.ld43.gui.Drawable;
+import com.github.jmatcj.ld43.handler.EventListener;
+import com.github.jmatcj.ld43.handler.Updatable;
 import com.github.jmatcj.ld43.stat.Stat;
-import com.github.jmatcj.ld43.tick.Updatable;
+import com.github.jmatcj.ld43.util.AssetLoader;
 import com.github.jmatcj.ld43.world.Map;
 import com.github.jmatcj.ld43.world.Room;
-import javafx.scene.canvas.GraphicsContext;
-import javafx.scene.input.InputEvent;
-import javafx.scene.input.KeyCode;
-import javafx.scene.input.KeyEvent;
-
 import java.util.Collection;
 import java.util.HashSet;
 import java.util.LinkedList;
@@ -22,6 +18,11 @@ import java.util.Queue;
 import java.util.Random;
 import java.util.Set;
 import java.util.concurrent.CopyOnWriteArraySet;
+import javafx.scene.canvas.GraphicsContext;
+import javafx.scene.input.InputEvent;
+import javafx.scene.input.KeyCode;
+import javafx.scene.input.KeyEvent;
+import javafx.scene.media.MediaPlayer;
 
 public class Game {
     private final Random rng;
@@ -34,9 +35,12 @@ public class Game {
     private Room.Direction nextRoom;
     private boolean nextArea;
     private int roomNum;
+    private MediaPlayer mediaPlayer;
+    private int themeType;
+    private boolean noMedia;
     public Player player = new Player(384.0, 384.0, 100);
 
-    public Game() {
+    public Game(boolean noMedia) {
         rng = new Random();
         currentMap = new Map(rng, 0);
         nextRoom = null;
@@ -47,6 +51,8 @@ public class Game {
         drawListeners = new CopyOnWriteArraySet<>();
         keyDown = new HashSet<>();
         nextArea = false;
+        this.noMedia = noMedia;
+        themeType = 0;
 
         addListener(new DrawStats());
         // Manually load the current room the first time
@@ -54,6 +60,15 @@ public class Game {
         addListener(currentMap.getCurrentRoom());
         getLoadedEntities().forEach(this::spawnEntity);
         spawnEntity(player);
+    }
+
+    void playMusic() {
+        if (!noMedia) {
+            mediaPlayer = new MediaPlayer(AssetLoader.getMusic("loop" + (themeType + 1) + ".mp3"));
+            mediaPlayer.setVolume(0.1);
+            mediaPlayer.setCycleCount(MediaPlayer.INDEFINITE);
+            mediaPlayer.play();
+        }
     }
     
     public Random getRNG() {
@@ -85,6 +100,11 @@ public class Game {
         player.addToStat(Stat.HP, 3);
         player.addToStat(Stat.values()[rng.nextInt(3) + 1], 1);
         spawnEntity(player);
+        if (!noMedia) {
+            mediaPlayer.stop();
+            themeType %= 2;
+            playMusic();
+        }
     }
 
     public boolean getNextArea() {
@@ -182,6 +202,11 @@ public class Game {
             }
             nextRoom = null;
         }
+    }
+
+    public void endGame() {
+        currentMap.getCurrentRoom().removeEntity(player);
+        currentMap.unloadCurrentRoom();
     }
 
     public void queueEvent(InputEvent event) {

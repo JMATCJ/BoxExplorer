@@ -15,6 +15,7 @@ public class LDJam43 extends Application {
     public static final int SCREEN_HEIGHT = 768;
 
     private static Game game;
+    private static boolean remakeGame;
     private AnimationTimer gameLoop;
 
     /*
@@ -25,10 +26,14 @@ public class LDJam43 extends Application {
         return game;
     }
 
+    public static void setRemakeGame() {
+        remakeGame = true;
+    }
+
     @Override
     public void init() throws Exception {
         AssetLoader.initialize(getParameters().getRaw().contains("-nomusic"));
-        game = new Game();
+        game = new Game(getParameters().getRaw().contains("-nomusic"));
     }
 
     @Override
@@ -46,6 +51,11 @@ public class LDJam43 extends Application {
         gameLoop = new AnimationTimer() {
             @Override
             public void handle(long now) {
+                if (remakeGame) {
+                    remakeGame = false;
+                    game = new Game(getParameters().getRaw().contains("-nomusic"));
+                }
+
                 if (game.getNextArea()) {
                     game.setNextArea();
                     game.remakeEverything();
@@ -63,7 +73,10 @@ public class LDJam43 extends Application {
         gameLoop.start();
 
         primaryStage.setResizable(false);
+        primaryStage.setTitle("Box Explorer");
         primaryStage.show();
+
+        game.playMusic();
     }
 
     @Override

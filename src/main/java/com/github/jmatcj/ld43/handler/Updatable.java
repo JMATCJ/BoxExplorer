@@ -1,4 +1,4 @@
-package com.github.jmatcj.ld43.tick;
+package com.github.jmatcj.ld43.handler;
 
 import com.github.jmatcj.ld43.Game;
 
