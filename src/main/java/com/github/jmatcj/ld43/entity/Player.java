@@ -3,6 +3,7 @@ package com.github.jmatcj.ld43.entity;
 import static com.github.jmatcj.ld43.stat.Stat.*;
 
 import com.github.jmatcj.ld43.Game;
+import com.github.jmatcj.ld43.LDJam43;
 import com.github.jmatcj.ld43.util.Util;
 import javafx.application.Platform;
 import javafx.scene.canvas.GraphicsContext;
@@ -11,6 +12,7 @@ import javafx.scene.input.KeyCode;
 import javafx.scene.input.MouseButton;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.paint.Color;
+import javafx.scene.text.TextAlignment;
 
 public class Player extends StatableEntity {
     private double velocity;
@@ -33,6 +35,21 @@ public class Player extends StatableEntity {
 
     @Override
     public void draw(GraphicsContext gc, Game g) {
+        if (getStatValue(HP) == 0) {
+            gc.save();
+            gc.setFill(Color.BLACK); //Does not work
+            Util.drawText(gc, Color.RED, 40, TextAlignment.CENTER, "You Have Died,", 400, 200);
+            Util.drawText(gc, Color.RED, 40, TextAlignment.CENTER, "Plese press A to play again", 400, 300);
+            Util.drawText(gc, Color.RED, 40, TextAlignment.CENTER, "or E to exit", 400, 400);
+            gc.restore();
+            if (g.getKeyDown().contains(KeyCode.E)) {
+                Platform.exit();
+            }
+            if (g.getKeyDown().contains(KeyCode.A)) {
+                g = new Game();
+            }
+            return;
+        }
         gc.save();
         Util.rotate(gc, Math.toDegrees(Math.atan2(yPos - mouseY, xPos - mouseX)), this);
         drawSquare(gc, Color.RED, true);
@@ -92,7 +109,8 @@ public class Player extends StatableEntity {
             if (!p.playerIgnore()) {
                 g.removeEntity(p);
                 if (addToStat(HP, -p.getDamage()) == 0) {
-                    Platform.exit(); // END THE GAME
+      
+                    //Platform.exit(); // END THE GAME
                 }
             }
         }
