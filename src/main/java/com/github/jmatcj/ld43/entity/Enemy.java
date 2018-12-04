@@ -21,7 +21,7 @@ public class Enemy extends StatableEntity {
     @Override
     public void draw(GraphicsContext gc, Game g) {
         gc.save();
-        Util.drawText(gc, Color.BLACK, 12, TextAlignment.CENTER, getStatValue(HP) + "", (int)xPos + 5, (int)yPos - 5);
+        Util.drawText(gc, Color.BLACK, 12, TextAlignment.CENTER, Integer.toString(getStatValue(HP)), (int)xPos + 5, (int)yPos - 5);
         Util.rotate(gc, Math.toDegrees(Math.atan2(yPos - g.player.getY(), xPos - g.player.getX())), this);
         drawSquare(gc, Color.ORANGE, true);
         gc.restore();
@@ -31,7 +31,7 @@ public class Enemy extends StatableEntity {
     public void update(long ns, Game g) {
         if (prevNS == 0) {
             lastShotNS = ns;
-            numOfSeconds = g.getRNG().nextInt(2) + 1;
+            numOfSeconds = g.getRNG().nextInt(5) + 1;
             updateNS(ns);
         }
 

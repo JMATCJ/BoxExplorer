@@ -3,12 +3,12 @@ package com.github.jmatcj.ld43.entity;
 import static com.github.jmatcj.ld43.stat.Stat.*;
 
 import com.github.jmatcj.ld43.Game;
-import com.github.jmatcj.ld43.LDJam43;
 import com.github.jmatcj.ld43.util.Util;
 import javafx.application.Platform;
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.input.InputEvent;
 import javafx.scene.input.KeyCode;
+import javafx.scene.input.MouseButton;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.paint.Color;
 
@@ -25,10 +25,8 @@ public class Player extends StatableEntity {
         super.handleEvent(event, g);
         if (event instanceof MouseEvent) {
             MouseEvent evt = (MouseEvent)event;
-            switch(evt.getButton()) {
-                case PRIMARY:
-                    g.spawnEntity(new Projectile(xPos, yPos, evt.getX(), evt.getY(),500 * ((getStatValue(BULLETSPEED) - 1) / 10.0 + 1), getStatValue(ATTACK), true, Color.BLUE));
-                    break;
+            if (evt.getButton() == MouseButton.PRIMARY) {
+                g.spawnEntity(new Projectile(xPos, yPos, evt.getX(), evt.getY(),500 * ((getStatValue(BULLETSPEED) - 1) / 10.0 + 1), getStatValue(ATTACK), true));
             }
         }
     }
@@ -87,7 +85,7 @@ public class Player extends StatableEntity {
             }
         }
         if (collision instanceof Switch) {
-            ((Switch) collision).toggleSwitch();
+            ((Switch)collision).toggleSwitch();
         }
         if (collision instanceof Projectile) {
             Projectile p = (Projectile)collision;
@@ -98,9 +96,9 @@ public class Player extends StatableEntity {
                 }
             }
         }
-        if (collision instanceof StairCase) {
-            if (((StairCase)collision).isActivated()) {
-                LDJam43.getGame().setNextArea();
+        if (collision instanceof Ladder) {
+            if (((Ladder)collision).isActivated()) {
+                g.setNextArea();
             }
         }
 

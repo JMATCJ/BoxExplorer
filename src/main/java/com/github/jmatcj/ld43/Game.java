@@ -3,7 +3,6 @@ package com.github.jmatcj.ld43;
 import com.github.jmatcj.ld43.entity.Enemy;
 import com.github.jmatcj.ld43.entity.Entity;
 import com.github.jmatcj.ld43.entity.Player;
-import com.github.jmatcj.ld43.entity.StairCase;
 import com.github.jmatcj.ld43.event.EventListener;
 import com.github.jmatcj.ld43.gui.DrawStats;
 import com.github.jmatcj.ld43.gui.Drawable;
@@ -32,10 +31,8 @@ public class Game {
     private Set<KeyCode> keyDown;
     private Map currentMap;
     private Room.Direction nextRoom;
-    private boolean nextArea = false;
+    private boolean nextArea;
     public Player player = new Player(384.0, 384.0, 100);
-    public StairCase stairCase = new StairCase(500.0, 100.0);
-
 
     public Game() {
         rng = new Random();
@@ -46,11 +43,14 @@ public class Game {
         updateListeners = new CopyOnWriteArraySet<>();
         drawListeners = new CopyOnWriteArraySet<>();
         keyDown = new HashSet<>();
+        nextArea = false;
 
         addListener(new DrawStats());
+        // Manually load the current room the first time
+        // Because the game is not fully initialized at this pointd
         addListener(currentMap.getCurrentRoom());
-        spawnEntity(player); // TODO Move this later
-        spawnEntity(stairCase);
+        getLoadedEntities().forEach(this::spawnEntity);
+        spawnEntity(player);
     }
     
     public Random getRNG() {
@@ -65,23 +65,16 @@ public class Game {
         nextArea = !nextArea;
     }
 
-    public int getTotalSwitches() {
-        return currentMap.getTotalSwitches();
-    }
-
-    public int getToggledSwitches() {
-        return currentMap.getToggledSwitches();
+    public int getRemainingSwitches() {
+        return currentMap.getTotalSwitches() - currentMap.getToggledSwitches();
     }
 
     public void remakeEverything() {
-        getLoadedEntities().forEach(e -> LDJam43.getGame().removeListener(e));
-        removeListener(currentMap.getCurrentRoom());
+        currentMap.unloadCurrentRoom();
         currentMap = new Map(rng, 1);
-        addListener(currentMap.getCurrentRoom());
-        spawnEntity(player);
+        currentMap.loadCurrentRoom();
         player.setNewPos(384.0, 384.0);
-        stairCase = new StairCase(500.0, 100.0);
-        spawnEntity(stairCase);
+        spawnEntity(player);
     }
 
     public boolean getNextArea() {
@@ -145,10 +138,10 @@ public class Game {
     public void handleRoomTransition() {
         if (nextRoom != null) {
             currentMap.getCurrentRoom().removeEntity(player);
-            Room.Direction dir = currentMap.transition(nextRoom);
+            currentMap.transition(nextRoom);
             currentMap.getCurrentRoom().addEntity(player);
             getLoadedEntities().stream().filter(e -> e instanceof Enemy).forEach(e -> {
-                switch (dir) {
+                switch (nextRoom) {
                     case RIGHT:
                         e.setNewPos(rng.nextInt(LDJam43.SCREEN_WIDTH / 2) + LDJam43.SCREEN_WIDTH / 2.0, rng.nextInt(LDJam43.SCREEN_HEIGHT));
                         break;
