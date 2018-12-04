@@ -86,8 +86,16 @@ public class Map {
         // Spawn Enemies
         int tmp;
         for (int i = 1; i < rooms.size(); i++) {
-
-            tmp = rng.nextInt(10);
+            double d = rng.nextDouble();
+            if (d <= 0.05) { // No enemies (5% chance)
+                continue;
+            } else if (d <= 0.55) { // 1 - 3 enemies (50% chance)
+                tmp = rng.nextInt(3) + 1;
+            } else if (d <= 0.90) { // 4 - 6 enemies (35% chance)
+                tmp = rng.nextInt(3) + 4;
+            } else { // 7 - 8 enemies (10% chance)
+                tmp = rng.nextInt(2) + 7;
+            }
             for (int k = 0; k < tmp; k++) {
                 Entity enemy = new Enemy(rng.nextInt((LDJam43.SCREEN_WIDTH) + 1), rng.nextInt((LDJam43.SCREEN_HEIGHT) + 1), 50, 5 + powerMeter, 1 + powerMeter, 1 + powerMeter * 5, 1 + powerMeter);
                 rooms.get(i).addEntity(enemy);
@@ -111,7 +119,7 @@ public class Map {
                 item.addStatChange(list.get(1), -(rng.nextInt(2) + 1));
                 rooms.get(rng.nextInt(rooms.size() - 1) + 1).addEntity(item);
             } else if (d <= 0.8) { // Uncommon
-                Item item = new Item(rng.nextDouble() * (LDJam43.SCREEN_WIDTH - Item.ITEM_SIZE), rng.nextDouble() * (LDJam43.SCREEN_HEIGHT - Item.ITEM_SIZE), Color.GREEN);
+                Item item = new Item(rng.nextDouble() * (LDJam43.SCREEN_WIDTH - Item.ITEM_SIZE), rng.nextDouble() * (LDJam43.SCREEN_HEIGHT - Item.ITEM_SIZE), Color.LIMEGREEN);
                 item.addStatChange(list.get(0), rng.nextInt(3) + 1);
                 item.addStatChange(list.get(1), rng.nextInt(3) + 1);
                 item.addStatChange(list.get(2), -(rng.nextInt(3) + 1));
