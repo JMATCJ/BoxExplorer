@@ -104,7 +104,7 @@ public class Map {
         // Spawn Switches
         totalSwitches = rng.nextInt(3) + 3;
         for (int i = 0; i < totalSwitches; i++) {
-            Entity switchEntity = new Switch(rng.nextInt(LDJam43.SCREEN_WIDTH - 50) + 50, rng.nextInt(LDJam43.SCREEN_HEIGHT - 50) + 50);
+            Entity switchEntity = new Switch(rng.nextInt(LDJam43.SCREEN_WIDTH - 50) + 25, rng.nextInt(LDJam43.SCREEN_HEIGHT - 50) + 25);
             rooms.get(rng.nextInt(rooms.size() - 1) + 1).addEntity(switchEntity);
         }
         // Spawn Items

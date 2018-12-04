@@ -6,6 +6,7 @@ import com.github.jmatcj.ld43.entity.Player;
 import com.github.jmatcj.ld43.event.EventListener;
 import com.github.jmatcj.ld43.gui.DrawStats;
 import com.github.jmatcj.ld43.gui.Drawable;
+import com.github.jmatcj.ld43.stat.Stat;
 import com.github.jmatcj.ld43.tick.Updatable;
 import com.github.jmatcj.ld43.world.Map;
 import com.github.jmatcj.ld43.world.Room;
@@ -74,6 +75,8 @@ public class Game {
         currentMap = new Map(rng, 1);
         currentMap.loadCurrentRoom();
         player.setNewPos(384.0, 384.0);
+        player.addToStat(Stat.HP, 3);
+        player.addToStat(Stat.values()[rng.nextInt(3) + 1], 1);
         spawnEntity(player);
     }
 
