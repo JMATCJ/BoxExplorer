@@ -46,7 +46,7 @@ public class Enemy extends StatableEntity {
 
         // If the cooldown has elapsed and random chance says we can shoot
         if (Util.hasTimeElapsed(lastShotNS, ns, numOfSeconds) && g.getRNG().nextBoolean()) {
-            g.spawnEntity(new Projectile(xPos, yPos, g.player.getX(), g.player.getY(), 500 * ((getStatValue(BULLETSPEED) - 1) / 10.0 + 1), getStatValue(ATTACK), false));
+            g.spawnEntity(new Projectile(xPos, yPos, g.player.getX(), g.player.getY(), 300 * ((getStatValue(BULLETSPEED) - 1) / 10.0 + 1), getStatValue(ATTACK), false));
             lastShotNS = ns;
             numOfSeconds = g.getRNG().nextInt(3) + 2;
         }

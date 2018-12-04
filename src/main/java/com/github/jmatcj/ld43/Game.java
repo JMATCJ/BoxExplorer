@@ -10,6 +10,11 @@ import com.github.jmatcj.ld43.gui.Drawable;
 import com.github.jmatcj.ld43.tick.Updatable;
 import com.github.jmatcj.ld43.world.Map;
 import com.github.jmatcj.ld43.world.Room;
+import javafx.scene.canvas.GraphicsContext;
+import javafx.scene.input.InputEvent;
+import javafx.scene.input.KeyCode;
+import javafx.scene.input.KeyEvent;
+
 import java.util.Collection;
 import java.util.HashSet;
 import java.util.LinkedList;
@@ -17,10 +22,6 @@ import java.util.Queue;
 import java.util.Random;
 import java.util.Set;
 import java.util.concurrent.CopyOnWriteArraySet;
-import javafx.scene.canvas.GraphicsContext;
-import javafx.scene.input.InputEvent;
-import javafx.scene.input.KeyCode;
-import javafx.scene.input.KeyEvent;
 
 public class Game {
     private final Random rng;
@@ -78,6 +79,7 @@ public class Game {
         currentMap = new Map(rng, 1);
         addListener(currentMap.getCurrentRoom());
         spawnEntity(player);
+        player.setNewPos(384.0, 384.0);
         stairCase = new StairCase(500.0, 100.0);
         spawnEntity(stairCase);
     }
