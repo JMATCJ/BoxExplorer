@@ -4,7 +4,7 @@ plugins {
     id 'idea'
 }
 
-version = 'LD'
+version = 'LD-Fix1'
 archivesBaseName = 'BoxExplorer'
 
 jar {
